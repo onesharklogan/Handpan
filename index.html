@@ -3,253 +3,380 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>D Kurd Handpan Sequencer</title>
+<title>D Kurd Handpan Sequencer Pro</title>
 
 <style>
 :root{
   --bg:#07111f;
   --bg2:#0f172a;
-  --panel:rgba(15,23,42,0.82);
-  --panelBorder:rgba(148,163,184,0.14);
+  --panel:rgba(15,23,42,0.9);
+  --panelBorder:rgba(148,163,184,0.1);
   --text:#e5eefb;
-  --muted:#94a3b8;
+  --muted:#64748b;
   --accent:#38bdf8;
   --accent2:#f59e0b;
-  --cell:#223247;
+  --cell:#1e293b;
   --cellActive:#38bdf8;
-  --cellPlay:#f59e0b;
-  --note:#e2e8f0;
 }
-*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:Inter,Arial,sans-serif;
-  background:radial-gradient(circle at top,#172554 0%,#0f172a 32%,#07111f 100%);
-  color:var(--text);
-  padding:24px;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0%, #0f172a 40%, #020617 100%);
+  color: var(--text);
+  padding: 20px;
+  min-height: 100vh;
 }
-.app{max-width:1220px;margin:auto;display:grid;gap:18px}
-h2{margin:0;font-size:2rem}
-.subtitle{color:var(--muted);margin-top:-6px}
-.layout{display:grid;grid-template-columns:400px 1fr;gap:18px}
+
+.app{ max-width: 1400px; margin: auto; display: grid; gap: 20px; }
+
+.layout{ 
+  display: grid; 
+  grid-template-columns: 400px 1fr; 
+  gap: 24px; 
+  align-items: start;
+}
 
 .panel{
-  background:var(--panel);
-  border:1px solid var(--panelBorder);
-  padding:16px;
-  border-radius:20px;
+  background: var(--panel);
+  border: 1px solid var(--panelBorder);
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
-/* HANDPAN */
+/* Handpan Styles */
+.handpan-container { position: relative; width: 100%; aspect-ratio: 1; }
 .handpan{
-  position:relative;
-  width:100%;
-  aspect-ratio:1;
-  border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#334155 0%,#1e293b 35%,#0f172a 70%,#020617 100%);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #334155 0%, #1e293b 35%, #0f172a 70%, #020617 100%);
 }
 
-.note{
-  position:absolute;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  background:#e2e8f0;
-  color:#0f172a;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  transform:translate(-50%,-50%);
-  font-weight:700;
+.note-btn{
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #f0f4f8, #cbd5e1);
+  color: #0f172a;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  font-weight: 800;
+  transition: all 0.1s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  z-index: 2;
 }
 
-.note:hover{
-  transform:translate(-50%,-50%) scale(1.05);
+/* Lighting up when triggered */
+.note-btn.playing {
+  background: var(--accent2);
+  box-shadow: 0 0 30px var(--accent2);
+  transform: translate(-50%, -50%) scale(1.15);
+  color: white;
 }
 
-.note.active{
-  background:#f59e0b;
-}
+/* Sequencer Grid Styles */
+#seq-container { overflow-x: auto; padding: 10px 0; }
+.timeline-grid { display: flex; flex-direction: column; gap: 10px; } /* Vertical Spacing */
+.row { display: grid; grid-template-columns: 60px repeat(32, 1fr); gap: 4px; align-items: center; }
+.row-label { font-weight: bold; color: var(--accent); text-align: right; padding-right: 12px; font-size: 0.85rem; }
 
-/* SEQUENCER */
-.row{
-  display:grid;
-  grid-template-columns:68px repeat(32,28px);
-  gap:6px;
-  margin-bottom:6px;
+.cell {
+  aspect-ratio: 1;
+  background: var(--cell);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s;
 }
+.cell.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+.cell.playhead { outline: 2px solid var(--accent2); outline-offset: 1px; z-index: 5; }
 
-.cell{
-  width:28px;
-  height:28px;
-  background:#223247;
-  cursor:pointer;
-  border-radius:6px;
-}
-
-.cell.active{background:#38bdf8}
-.cell.playhead{background:#f59e0b}
-
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-button,input,select{
-  padding:8px 10px;
-  border-radius:10px;
-  border:1px solid #334155;
-  background:#111c2f;
-  color:white;
-}
+/* Controls */
+.controls { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+button, select { background: #1e293b; border: 1px solid #334155; color: white; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+#play { background: #059669; border: none; }
+#stop { background: #dc2626; border: none; }
 </style>
 </head>
 
 <body>
-
 <div class="app">
-<h2>D Kurd Handpan Sequencer</h2>
-<div class="layout">
+  <header>
+    <h2>D Kurd Handpan Sequencer</h2>
+    <div class="subtitle">Lessons 1-45 & Advanced Patterns</div>
+  </header>
 
-<div class="panel">
-<div class="handpan" id="handpan"></div>
-</div>
+  <div class="layout">
+    <div class="panel">
+      <div class="handpan-container">
+        <div class="handpan" id="handpan"></div>
+      </div>
+    </div>
 
-<div class="panel">
-<div class="controls">
-<button id="play">Play</button>
-<button id="stop">Stop</button>
-<button id="clear">Clear</button>
+    <div class="panel">
+      <div class="controls">
+        <button id="play">▶ Play</button>
+        <button id="stop">■ Stop</button>
+        <button id="clear">Clear Grid</button>
+        <select id="patternSelect"></select>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span>BPM</span>
+          <input id="bpm" type="range" min="60" max="200" value="95">
+          <span id="bpmVal">95</span>
+        </div>
+      </div>
 
-<label>BPM <input id="bpm" type="range" min="60" max="200" value="90"></label>
-<span id="bpmVal">90</span>
-</div>
-
-<div id="seq"></div>
-</div>
-
-</div>
+      <div id="seq-container">
+        <div id="seq" class="timeline-grid"></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-/* AUDIO CONTEXT FIX (CRITICAL FOR RENDER) */
 const ctx = new (window.AudioContext || window.webkitAudioContext)();
-document.body.addEventListener("click", () => {
-  if (ctx.state === "suspended") ctx.resume();
-}, { once: true });
-
 const notes=[
-{n:'D3',f:146,x:50,y:50},
-{n:'A4',f:440,x:50,y:10},
-{n:'G4',f:392,x:75,y:25},
-{n:'E4',f:329,x:90,y:50},
-{n:'C4',f:261,x:75,y:75},
-{n:'A3',f:220,x:50,y:90},
-{n:'Bb3',f:233,x:25,y:75},
-{n:'D4',f:293,x:10,y:50},
-{n:'F4',f:349,x:25,y:25}
+  {n:'D3', f:146.83, x:50, y:50},
+  {n:'A3', f:220.00, x:50, y:85},
+  {n:'Bb3',f:233.08, x:25, y:75},
+  {n:'C4', f:261.63, x:12, y:50},
+  {n:'D4', f:293.66, x:25, y:25},
+  {n:'E4', f:329.63, x:50, y:15},
+  {n:'F4', f:349.23, x:75, y:25},
+  {n:'G4', f:392.00, x:88, y:50},
+  {n:'A4', f:440.00, x:75, y:75}
 ];
 
-const steps=32;
-let sequence=Array.from({length:notes.length},()=>Array(steps).fill(0));
-let step=0,playing=false,timer;
+const steps = 32;
+let sequence = Array.from({length: notes.length}, () => Array(steps).fill(0));
+let currentStep = 0;
+let playing = false;
+let nextStepTime = 0;
+const noteEls = [];
 
-const handpan=document.getElementById('handpan');
-const seqEl=document.getElementById('seq');
+// PATTERN DATA 
+const builtIn = {
+  // LESSON SET: rhythm and polyrhythm progression
+  "Lesson 1 - 3 Over 4": { D3: [0, 8, 16, 24], F4: [0, 10, 20, 30], A3: [4, 12, 20, 28] },
+  "Lesson 2 - 5 Cycle Against 4": { D3: [0, 8, 16, 24], G4: [0, 5, 10, 15, 20, 25, 30], A3: [4, 12, 20, 28] },
+  "Lesson 3 - Call and Response": { D3: [0, 4, 8, 12], A3: [2, 6, 10, 14], C4: [18, 22, 26, 30], D4: [19, 23, 27, 31] },
+  "Lesson 4 - Layered Polyrhythm": { D3: [0, 8, 16, 24], F4: [0, 6, 12, 18, 24, 30], G4: [3, 11, 19, 27], A4: [5, 15, 21, 31] },
+  "Lesson 5 - Rotating Phrase": { D3: [0, 9, 18, 27], A3: [4, 13, 22, 31], C4: [2, 8, 14, 20, 26], F4: [6, 15, 24] },
+  "Lesson 6 - Full Polyrhythmic Study": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [5, 10, 15, 20, 25, 30], F4: [0, 12, 24], G4: [7, 14, 21, 28], A4: [2, 18, 26, 31] },
+  "Lesson 7 - Cross Accent Matrix": { D3: [0, 8, 16, 24], A3: [2, 7, 10, 15, 18, 23, 26, 31], D4: [4, 12, 20, 28], F4: [6, 14, 22, 30] },
+  "Lesson 8 - 7 Cycle Lattice": { D3: [0, 8, 16, 24], G4: [0, 7, 14, 21, 28], Bb3: [3, 10, 17, 24, 31], F4: [5, 13, 21, 29] },
+  "Lesson 9 - Rotating 3 5 4 Grid": { D3: [0, 8, 16, 24], A3: [0, 5, 10, 15, 20, 25, 30], C4: [2, 9, 16, 23, 30], G4: [4, 12, 20, 28] },
+  "Lesson 10 - Advanced Poly Study": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], Bb3: [5, 14, 21, 30], C4: [2, 10, 18, 26], F4: [0, 12, 24], G4: [7, 15, 23, 31], A4: [6, 17, 22, 29] },
+  "Lesson 11 - Offset Bell Cycle": { D3: [0, 8, 16, 24], D4: [1, 9, 17, 25], F4: [4, 11, 20, 27], A4: [6, 14, 22, 30], G4: [3, 18, 26] },
+  "Lesson 12 - Expanding Polyrhythm": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [0, 6, 12, 18, 24, 30], E4: [5, 13, 21, 29], G4: [2, 11, 19, 27], A4: [7, 15, 23, 31] },
+  "Lesson 13 - Ritual Resolution": { D3: [0, 8, 16, 24], Bb3: [2, 9, 18, 25], C4: [4, 12, 20, 28], D4: [6, 14, 22, 30], F4: [10, 17, 26], A4: [15, 31] },
+  "Lesson 14 - Dense Phase Study": { D3: [0, 8, 16, 24], A3: [1, 9, 17, 25], C4: [3, 8, 13, 18, 23, 28], D4: [6, 14, 22, 30], F4: [0, 10, 20, 30], G4: [5, 16, 27] },
+  "Lesson 15 - Master Polymeter": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], Bb3: [1, 6, 12, 17, 23, 28], C4: [5, 13, 21, 29], D4: [2, 10, 18, 26], F4: [0, 7, 14, 21, 28], G4: [4, 15, 24, 31], A4: [9, 20, 30] },
 
-const noteEls=[];
-notes.forEach((n,i)=>{
-  let el=document.createElement('div');
-  el.className='note';
-  el.style.left=n.x+'%';
-  el.style.top=n.y+'%';
-  el.textContent=n.n;
-  el.onclick=()=>playNote(i);
-  handpan.appendChild(el);
-  noteEls.push(el);
-});
+  // EXTENDED LESSON SET (16–45)
+  "Lesson 16 - Offset Triplet Grid": { D3: [0, 8, 16, 24], A3: [3, 9, 15, 21, 27], C4: [6, 12, 18, 24, 30] },
+  "Lesson 17 - 9 Cycle Overlay": { D3: [0, 8, 16, 24], F4: [0, 9, 18, 27], A4: [4, 13, 22, 31] },
+  "Lesson 18 - Expanding Cross Rhythm": { D3: [0, 8, 16, 24], A3: [2, 10, 18, 26], Bb3: [5, 13, 21, 29], C4: [7, 15, 23, 31] },
+  "Lesson 19 - Syncopated Spiral": { D3: [0, 7, 15, 23], A3: [3, 11, 19, 27], D4: [5, 14, 22, 30], F4: [9, 17, 25] },
+  "Lesson 20 - Dense 3 Layer Pulse": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [2, 6, 10, 14, 18, 22, 26, 30] },
+  "Lesson 21 - Rotating Accent Shift": { D3: [0, 8, 16, 24], F4: [2, 11, 20, 29], A4: [4, 13, 22, 31] },
+  "Lesson 22 - 11 Cycle Drift": { D3: [0, 8, 16, 24], G4: [0, 11, 22], Bb3: [5, 16, 27], F4: [3, 14, 25] },
+  "Lesson 23 - Phase Sliding Pattern": { D3: [0, 8, 16, 24], A3: [1, 9, 17, 25], C4: [3, 10, 18, 26], E4: [6, 14, 22, 30] },
+  "Lesson 24 - Multi Layer Weave": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], F4: [6, 14, 22, 30], G4: [3, 11, 19, 27], A4: [5, 15, 25] },
+  "Lesson 25 - Broken Loop Grid": { D3: [0, 6, 13, 19, 26], C4: [2, 9, 15, 22, 28], F4: [4, 11, 17, 24, 30] },
+  "Lesson 26 - Dense Poly Mesh": { D3: [0, 8, 16, 24], A3: [2, 6, 10, 14, 18, 22, 26, 30], C4: [1, 9, 17, 25], F4: [3, 11, 19, 27] },
+  "Lesson 27 - Offset Mirror Cycles": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], A4: [2, 10, 18, 26], F4: [6, 14, 22, 30] },
+  "Lesson 28 - Expanding Spiral Matrix": { D3: [0, 8, 16, 24], C4: [2, 12, 22, 30], D4: [4, 14, 24], F4: [6, 18, 28], A4: [10, 20] },
+  "Lesson 29 - Triplet vs Quad": { D3: [0, 8, 16, 24], A3: [0, 5, 10, 15, 20, 25, 30], C4: [2, 10, 18, 26] },
+  "Lesson 30 - Harmonic Polymeter": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], F4: [1, 9, 17, 25] },
+  "Lesson 31 - Drift Expansion": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], G4: [7, 15, 23, 31], Bb3: [2, 10, 18, 26] },
+  "Lesson 32 - Cross Pulse Cascade": { D3: [0, 8, 16, 24], F4: [0, 6, 12, 18, 24, 30], A4: [3, 11, 19, 27] },
+  "Lesson 33 - Phase Displacement": { D3: [0, 8, 16, 24], A3: [1, 9, 17, 25], C4: [2, 10, 18, 26], D4: [3, 11, 19, 27] },
+  "Lesson 34 - Rotating Density": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [2, 6, 10, 14, 18, 22, 26, 30], F4: [5, 15, 25] },
+  "Lesson 35 - Dense Interlock": { D3: [0, 4, 8, 12, 16, 20, 24, 28], A3: [2, 6, 10, 14, 18, 22, 26, 30], C4: [1, 5, 9, 13, 17, 21, 25, 29] },
+  "Lesson 36 - Expanding Phase Grid": { D3: [0, 8, 16, 24], F4: [0, 10, 20, 30], A4: [5, 15, 25], C4: [2, 12, 22] },
+  "Lesson 37 - Offset Cluster": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [5, 13, 21, 29], F4: [7, 15, 23, 31] },
+  "Lesson 38 - Multi Phase Spiral": { D3: [0, 8, 16, 24], A3: [2, 10, 18, 26], D4: [4, 12, 20, 28], G4: [6, 14, 22, 30] },
+  "Lesson 39 - Advanced Cycle Overlay": { D3: [0, 8, 16, 24], F4: [0, 9, 18, 27], A4: [4, 13, 22, 31], C4: [2, 11, 20, 29] },
+  "Lesson 40 - Complex Weave Matrix": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], F4: [1, 9, 17, 25], G4: [5, 15, 25] },
+  "Lesson 41 - Dense Spiral Expansion": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [2, 10, 18, 26], D4: [6, 14, 22, 30], F4: [1, 9, 17, 25] },
+  "Lesson 42 - Cross Density Engine": { D3: [0, 8, 16, 24], A3: [2, 6, 10, 14, 18, 22, 26, 30], F4: [3, 11, 19, 27], G4: [5, 15, 25] },
+  "Lesson 43 - Rotating Poly Grid": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], D4: [1, 9, 17, 25] },
+  "Lesson 44 - Hyper Polyrhythm": { D3: [0, 8, 16, 24], A3: [2, 10, 18, 26], C4: [5, 13, 21, 29], F4: [7, 15, 23, 31], G4: [3, 11, 19, 27] },
+  "Lesson 45 - Master Density Field": { D3: [0, 8, 16, 24], A3: [1, 5, 9, 13, 17, 21, 25, 29], C4: [2, 6, 10, 14, 18, 22, 26, 30], F4: [3, 11, 19, 27], G4: [7, 15, 23, 31] },
 
-function render(){
-  seqEl.innerHTML='';
-  notes.forEach((n,r)=>{
-    let row=document.createElement('div');
-    row.className='row';
+  // BUILT-IN PATTERNS
+  "Deep Journey": { D3: [0, 7, 16, 23], A3: [4, 12, 20, 28], D4: [2, 10, 18, 26], F4: [6, 14, 22, 30] },
+  "Interlocking Groove": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], Bb3: [5, 13, 21, 29], C4: [2, 10, 18, 26], D4: [6, 14, 22, 30] },
+  "Rolling Polyrhythm": { D3: [0, 9, 18, 27], F4: [2, 11, 20, 29], G4: [4, 13, 22, 31], A4: [6, 15, 24] },
+  "Melodic Wave": { D3: [0, 16], A3: [2, 6, 10, 14, 18, 22, 26, 30], C4: [3, 7, 11, 15, 19, 23, 27, 31], D4: [4, 12, 20, 28], E4: [5, 13, 21, 29] },
+  "Call Response": { D3: [0, 4, 8, 12, 16, 20, 24, 28], A3: [2, 6, 10, 14], C4: [18, 22, 26, 30], D4: [3, 11, 19, 27] },
+  "Tribal Complex": { D3: [0, 5, 10, 15, 20, 25, 30], F4: [2, 7, 12, 17, 22, 27], G4: [3, 9, 14, 21, 26, 31], A3: [6, 18, 24] },
+  "Spiral Melody Advanced": { D3: [0, 16], Bb3: [2, 18], C4: [4, 20], D4: [6, 22], E4: [8, 24], F4: [10, 26], G4: [12, 28], A4: [14, 30], G4: [17, 25], F4: [19, 27], E4: [21, 29] },
+  "Dense Texture": { D3: [0, 4, 8, 12, 16, 20, 24, 28], A3: [1, 5, 9, 13, 17, 21, 25, 29], Bb3: [3, 7, 11, 15, 19, 23, 27, 31], D4: [2, 6, 10, 14, 18, 22, 26, 30] },
 
-    let label=document.createElement('div');
-    label.textContent=n.n;
+  // NEW mystical / esoteric inspired
+  "Byzantine Echo": { D3: [0, 12, 24], Bb3: [2, 14, 26], C4: [4, 16, 28], D4: [6, 18, 30], F4: [8, 20], G4: [10, 22] },
+  "Sufi Pulse": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], D4: [2, 10, 18, 26] },
+  "Temple Bells": { D3: [0, 16], A4: [4, 12, 20, 28], F4: [6, 22], C4: [10, 26] },
+  "Mystic Cycle": { D3: [0, 7, 15, 23], Bb3: [3, 11, 19, 27], D4: [5, 13, 21, 29], G4: [9, 17, 25] },
+  "Ancient Steps": { D3: [0, 4, 9, 13, 18, 22, 27], A3: [2, 11, 20, 29], F4: [6, 15, 24] },
+  "Echo Spiral": { D3: [0, 16], A3: [2, 18], C4: [4, 20], E4: [6, 22], G4: [8, 24], A4: [10, 26], G4: [12, 28] },
+  "Desert Rhythm": { D3: [0, 6, 12, 18, 24, 30], Bb3: [3, 9, 15, 21, 27], F4: [5, 11, 17, 23, 29] },
+  "Hidden Chant": { D3: [0, 8, 16, 24], C4: [4, 12, 20, 28], E4: [2, 10, 18, 26], A4: [6, 14, 22, 30] },
+  "Obsidian Flow": { D3: [0, 5, 11, 17, 23, 29], G4: [2, 8, 14, 20, 26], A4: [4, 10, 16, 22, 28] },
+  "Lunar Drift": { D3: [0, 16], F4: [3, 19], A4: [6, 22], C4: [9, 25], E4: [12, 28] },
+
+  // NEW advanced set
+  "Fractal Pulse": { D3: [0, 5, 13, 21, 29], A3: [2, 10, 18, 26], C4: [7, 15, 23, 31] },
+  "Dervish Spin": { D3: [0, 8, 16, 24], F4: [3, 11, 19, 27], A4: [6, 14, 22, 30], G4: [9, 17, 25] },
+  "Broken Symmetry": { D3: [0, 6, 13, 19, 26], Bb3: [2, 9, 15, 22, 28], D4: [4, 11, 17, 24, 30] },
+  "Glass Harmonics": { D3: [0, 16], A4: [2, 6, 10, 14, 18, 22, 26, 30], E4: [4, 12, 20, 28] },
+  "Shadow Steps": { D3: [0, 7, 14, 21, 28], F4: [3, 10, 17, 24, 31], G4: [5, 12, 19, 26] },
+  "Ascending Ritual": { D3: [0], A3: [4], Bb3: [8], C4: [12], D4: [16], E4: [20], F4: [24], G4: [28] },
+  "Time Weave": { D3: [0, 9, 18, 27], A3: [4, 13, 22, 31], D4: [6, 15, 24], F4: [2, 11, 20, 29] },
+  "Mirror Pulse": { D3: [0, 8, 16, 24], C4: [4, 12, 20, 28], A3: [2, 6, 10, 14], A4: [18, 22, 26, 30] },
+  "Ancient Engine": { D3: [0, 4, 8, 12, 16, 20, 24, 28], F4: [2, 6, 10, 14, 18, 22, 26, 30], G4: [1, 9, 17, 25] },
+  "Drift Lattice": { D3: [0, 11, 22], A3: [5, 16, 27], C4: [3, 14, 25], E4: [7, 18, 29] }
+};
+
+// UI BUILDER
+function init() {
+  const hp = document.getElementById('handpan');
+  notes.forEach((n, i) => {
+    const el = document.createElement('div');
+    el.className = 'note-btn';
+    el.style.left = n.x + '%';
+    el.style.top = n.y + '%';
+    el.textContent = n.n;
+    el.onclick = () => { playNote(i); triggerVisualNote(i); };
+    hp.appendChild(el);
+    noteEls.push(el);
+  });
+
+  const sel = document.getElementById('patternSelect');
+  sel.innerHTML = '<option value="">-- Select Lesson/Pattern --</option>';
+  Object.keys(builtIn).forEach(k => {
+    const opt = document.createElement('option');
+    opt.value = k;
+    opt.textContent = k;
+    sel.appendChild(opt);
+  });
+
+  renderGrid();
+}
+
+function renderGrid() {
+  const seq = document.getElementById('seq');
+  seq.innerHTML = '';
+  notes.forEach((note, r) => {
+    const row = document.createElement('div');
+    row.className = 'row';
+    const label = document.createElement('div');
+    label.className = 'row-label';
+    label.textContent = note.n;
     row.appendChild(label);
 
-    for(let c=0;c<steps;c++){
-      let cell=document.createElement('div');
-      cell.className='cell'+(sequence[r][c]?' active':'');
-      if(c===step) cell.classList.add('playhead');
-
-      cell.onclick=()=>{
-        sequence[r][c]^=1;
-        render();
+    for(let c=0; c<steps; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell' + (sequence[r][c] ? ' active' : '');
+      cell.id = `cell-${r}-${c}`;
+      cell.onclick = () => {
+        sequence[r][c] = sequence[r][c] ? 0 : 1;
+        cell.classList.toggle('active');
       };
-
       row.appendChild(cell);
     }
-    seqEl.appendChild(row);
+    seq.appendChild(row);
   });
 }
 
-function playNote(i){
-  if(ctx.state==='suspended') ctx.resume();
+function triggerVisualNote(index) {
+  noteEls[index].classList.add('playing');
+  setTimeout(() => noteEls[index].classList.remove('playing'), 150);
+}
 
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-
-  osc.frequency.value=notes[i].f;
-  osc.type='sine';
-
-  gain.gain.setValueAtTime(0.3, ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.5);
-
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-
+function playNote(i) {
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const g = ctx.createGain();
+  osc.frequency.setValueAtTime(notes[i].f, now);
+  g.gain.setValueAtTime(0.3, now);
+  g.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+  osc.connect(g);
+  g.connect(ctx.destination);
   osc.start();
-  osc.stop(ctx.currentTime+0.5);
-
-  noteEls[i].classList.add('active');
-  setTimeout(()=>noteEls[i].classList.remove('active'),200);
+  osc.stop(now + 0.6);
 }
 
-function stepDuration(){return 60000/Number(document.getElementById('bpm').value)/4}
-
-function tick(){
-  render();
-
-  for(let r=0;r<notes.length;r++){
-    if(sequence[r][step]) playNote(r);
+// SCHEDULER
+function scheduler() {
+  while (nextStepTime < ctx.currentTime + 0.1) {
+    playStep(currentStep, nextStepTime);
+    nextStepTime += (60 / document.getElementById('bpm').value) / 4;
+    currentStep = (currentStep + 1) % steps;
   }
-
-  step=(step+1)%steps;
-
-  if(playing){
-    timer=setTimeout(tick,stepDuration());
-  }
+  if (playing) requestAnimationFrame(scheduler);
 }
 
-/* CONTROLS */
-document.getElementById('play').onclick=()=>{
-  if(!playing){playing=true;tick()}
+function playStep(s, time) {
+  notes.forEach((n, r) => {
+    if (sequence[r][s]) {
+      const delay = Math.max(0, (time - ctx.currentTime) * 1000);
+      setTimeout(() => {
+        playNote(r);
+        triggerVisualNote(r);
+      }, delay);
+    }
+    // Update Playhead Visuals
+    const cell = document.getElementById(`cell-${r}-${s}`);
+    const prev = document.getElementById(`cell-${r}-${(s + steps - 1) % steps}`);
+    if(cell) cell.classList.add('playhead');
+    if(prev) prev.classList.remove('playhead');
+  });
+}
+
+// EVENT LISTENERS
+document.getElementById('play').onclick = () => {
+  if (ctx.state === 'suspended') ctx.resume();
+  if (!playing) {
+    playing = true;
+    nextStepTime = ctx.currentTime;
+    scheduler();
+  }
 };
 
-document.getElementById('stop').onclick=()=>{
-  playing=false;
-  clearTimeout(timer);
+document.getElementById('stop').onclick = () => {
+  playing = false;
+  document.querySelectorAll('.cell').forEach(c => c.classList.remove('playhead'));
+  currentStep = 0;
 };
 
-document.getElementById('clear').onclick=()=>{
-  sequence=sequence.map(r=>r.map(()=>0));
-  render();
+document.getElementById('clear').onclick = () => {
+  sequence = Array.from({length: notes.length}, () => Array(steps).fill(0));
+  renderGrid();
 };
 
-document.getElementById('bpm').oninput=e=>{
-  document.getElementById('bpmVal').textContent=e.target.value;
+document.getElementById('patternSelect').onchange = (e) => {
+  const data = builtIn[e.target.value];
+  if(!data) return;
+  sequence = Array.from({length: notes.length}, () => Array(steps).fill(0));
+  notes.forEach((n, i) => {
+    if(data[n.n]) data[n.n].forEach(stepIdx => sequence[i][stepIdx] = 1);
+  });
+  renderGrid();
 };
 
-render();
+document.getElementById('bpm').oninput = (e) => {
+  document.getElementById('bpmVal').textContent = e.target.value;
+};
+
+init();
 </script>
-
 </body>
 </html>
