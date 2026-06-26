@@ -1,382 +1,774 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>D Kurd Handpan Sequencer Pro</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PL-400 Quiz</title>
 
-<style>
-:root{
-  --bg:#07111f;
-  --bg2:#0f172a;
-  --panel:rgba(15,23,42,0.9);
-  --panelBorder:rgba(148,163,184,0.1);
-  --text:#e5eefb;
-  --muted:#64748b;
-  --accent:#38bdf8;
-  --accent2:#f59e0b;
-  --cell:#1e293b;
-  --cellActive:#38bdf8;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f7f7f7;
+      line-height: 1.5;
+    }
 
-body{
-  margin:0;
-  font-family: 'Inter', system-ui, sans-serif;
-  background: radial-gradient(circle at top, #1e293b 0%, #0f172a 40%, #020617 100%);
-  color: var(--text);
-  padding: 20px;
-  min-height: 100vh;
-}
+    h1 {
+      text-align: center;
+    }
 
-.app{ max-width: 1400px; margin: auto; display: grid; gap: 20px; }
+    .quiz-card {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
 
-.layout{ 
-  display: grid; 
-  grid-template-columns: 400px 1fr; 
-  gap: 24px; 
-  align-items: start;
-}
+    #progress {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #555;
+    }
 
-.panel{
-  background: var(--panel);
-  border: 1px solid var(--panelBorder);
-  padding: 20px;
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
+    #question {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
 
-/* Handpan Styles */
-.handpan-container { position: relative; width: 100%; aspect-ratio: 1; }
-.handpan{
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #334155 0%, #1e293b 35%, #0f172a 70%, #020617 100%);
-}
+    .option {
+      display: block;
+      background: #f1f1f1;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-.note-btn{
-  position: absolute;
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #f0f4f8, #cbd5e1);
-  color: #0f172a;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  font-weight: 800;
-  transition: all 0.1s ease;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-  z-index: 2;
-}
+    .option:hover {
+      background: #e7e7e7;
+    }
 
-/* Lighting up when triggered */
-.note-btn.playing {
-  background: var(--accent2);
-  box-shadow: 0 0 30px var(--accent2);
-  transform: translate(-50%, -50%) scale(1.15);
-  color: white;
-}
+    .option input {
+      margin-right: 10px;
+    }
 
-/* Sequencer Grid Styles */
-#seq-container { overflow-x: auto; padding: 10px 0; }
-.timeline-grid { display: flex; flex-direction: column; gap: 10px; } /* Vertical Spacing */
-.row { display: grid; grid-template-columns: 60px repeat(32, 1fr); gap: 4px; align-items: center; }
-.row-label { font-weight: bold; color: var(--accent); text-align: right; padding-right: 12px; font-size: 0.85rem; }
+    button {
+      padding: 12px 20px;
+      margin-top: 20px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #2563eb;
+      color: white;
+    }
 
-.cell {
-  aspect-ratio: 1;
-  background: var(--cell);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.1s;
-}
-.cell.active { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-.cell.playhead { outline: 2px solid var(--accent2); outline-offset: 1px; z-index: 5; }
+    button:hover {
+      background: #1d4ed8;
+    }
 
-/* Controls */
-.controls { display: flex; gap: 12px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
-button, select { background: #1e293b; border: 1px solid #334155; color: white; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
-#play { background: #059669; border: none; }
-#stop { background: #dc2626; border: none; }
-</style>
+    #feedback {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .correct {
+      color: green;
+    }
+
+    .wrong {
+      color: red;
+    }
+
+    #result {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 25px;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
-<div class="app">
-  <header>
-    <h2>D Kurd Handpan Sequencer</h2>
-    <div class="subtitle">Lessons 1-45 & Advanced Patterns</div>
-  </header>
 
-  <div class="layout">
-    <div class="panel">
-      <div class="handpan-container">
-        <div class="handpan" id="handpan"></div>
-      </div>
-    </div>
+<h1>PL-400 Quiz</h1>
 
-    <div class="panel">
-      <div class="controls">
-        <button id="play">▶ Play</button>
-        <button id="stop">■ Stop</button>
-        <button id="clear">Clear Grid</button>
-        <select id="patternSelect"></select>
-        <div style="display:flex; align-items:center; gap:10px;">
-          <span>BPM</span>
-          <input id="bpm" type="range" min="60" max="200" value="95">
-          <span id="bpmVal">95</span>
-        </div>
-      </div>
-
-      <div id="seq-container">
-        <div id="seq" class="timeline-grid"></div>
-      </div>
-    </div>
-  </div>
+<div class="quiz-card" id="quiz">
+  <div id="progress"></div>
+  <div id="question"></div>
+  <div id="options"></div>
+  <div id="feedback"></div>
+  <button id="actionButton" onclick="handleButtonClick()">Check Answer</button>
 </div>
 
+<div id="result"></div>
+
 <script>
-const ctx = new (window.AudioContext || window.webkitAudioContext)();
-const notes=[
-  {n:'D3', f:146.83, x:50, y:50},
-  {n:'A3', f:220.00, x:50, y:85},
-  {n:'Bb3',f:233.08, x:25, y:75},
-  {n:'C4', f:261.63, x:12, y:50},
-  {n:'D4', f:293.66, x:25, y:25},
-  {n:'E4', f:329.63, x:50, y:15},
-  {n:'F4', f:349.23, x:75, y:25},
-  {n:'G4', f:392.00, x:88, y:50},
-  {n:'A4', f:440.00, x:75, y:75}
+const allQuestions = [
+  {
+    question: "Managers need one screen with Power BI data and the ability to update maintenance history. What should you do?",
+    options: [
+      "Add the maintenance history app to the Field Service Mobile app",
+      "Add the manager Power BI dashboard to the Field Service mobile app",
+      "Create a new maintenance canvas app from within the Power BI dashboard",
+      "Add the maintenance history app to the Power BI dashboard"
+    ],
+    answer: "Add the maintenance history app to the Power BI dashboard",
+    explanation: "Embedding the existing maintenance history app into the Power BI dashboard lets managers view Power BI data and update maintenance history from one screen."
+  },
+  {
+    question: "Staffing company: create the job listings portal. Which feature?",
+    options: [
+      "Custom self-service portal for employers and a custom page for job candidates",
+      "Custom self-service portal for both employers and job candidates",
+      "Portal for job candidates and a custom self-service portal for employers",
+      "Portal from blank for job candidates and employers"
+    ],
+    answer: "Custom self-service portal for both employers and job candidates",
+    explanation: "A custom self-service portal supports both employers and candidates in one portal experience."
+  },
+  {
+    question: "Staffing company: create an app that lists available positions. Which feature?",
+    options: [
+      "Canvas app with push notifications",
+      "Model-driven app with push notifications",
+      "Portal app with push notifications"
+    ],
+    answer: "Model-driven app with push notifications",
+    explanation: "Model-driven apps are best for data-driven apps based on Dataverse records."
+  },
+  {
+    question: "Staffing company: employers seeking temporary employees need an app. Which feature?",
+    options: [
+      "Entity form defined on the job custom entity",
+      "Webform with target set to the job custom entity",
+      "Web page defined on the job custom entity",
+      "Web step with target set to the job custom entity"
+    ],
+    answer: "Webform with target set to the job custom entity",
+    explanation: "A webform supports a guided portal process for entering job information."
+  },
+  {
+    question: "Staffing company: create invitation parameters for job candidates. Which option?",
+    options: [
+      "Configure Assigned to Account only",
+      "Configure Execute Workflow on Redeeming Contact only",
+      "Configure both Assigned to Account and Execute Workflow on Redeeming Contact",
+      "Leave both empty"
+    ],
+    answer: "Configure Execute Workflow on Redeeming Contact only",
+    explanation: "A workflow can run when the invitation is redeemed and process the candidate contact."
+  },
+  {
+    question: "Staffing company: create invitation parameters for approved job candidates. Which option?",
+    options: [
+      "Configure Assigned to Account only",
+      "Configure Execute Workflow on Redeeming Contact only",
+      "Configure both Assigned to Account and Execute Workflow on Redeeming Contact",
+      "Leave both empty"
+    ],
+    answer: "Configure Assigned to Account only",
+    explanation: "Assigned to Account links the redeemed contact to the appropriate account."
+  },
+  {
+    question: "Bakery app: determine which store is closest to the order destination. What should you use?",
+    options: [
+      "Power Automate flow",
+      "Plug-in",
+      "Logic app"
+    ],
+    answer: "Power Automate flow",
+    explanation: "Power Automate can use connectors such as Bing Maps to determine the closest store with minimal custom code."
+  },
+  {
+    question: "Bakery app: estimate pickup prep time and notify the customer while minimizing custom code. What should you use?",
+    options: [
+      "New screen in an existing order canvas app",
+      "New canvas app",
+      "New logic app"
+    ],
+    answer: "New screen in an existing order canvas app",
+    explanation: "Adding a screen to the existing canvas app minimizes custom development and avoids creating a separate app."
+  },
+  {
+    question: "Bakery app: send the newsletter by email to customers. What should you use?",
+    options: [
+      "Power Automate flow triggered from an email button",
+      "Power Automate flow triggered manually",
+      "Power Automate UI flow triggered from an email button"
+    ],
+    answer: "Power Automate flow triggered from an email button",
+    explanation: "A cloud flow triggered from a button is appropriate for sending emails. UI flows are for RPA."
+  },
+  {
+    question: "Custom connector: which files can API developers provide to create the connector? Select two.",
+    options: [
+      "YAML",
+      "WSDL",
+      "OpenAPI definition",
+      "Postman collection"
+    ],
+    answer: [
+      "OpenAPI definition",
+      "Postman collection"
+    ],
+    explanation: "Custom connectors can be created from an OpenAPI definition or imported from a Postman collection."
+  },
+  {
+    question: "You plan to create a canvas app to manage large sets of records. Users will filter and sort the data. Which two data sources should you recommend?",
+    options: [
+      "SQL Server",
+      "Common Data Service",
+      "Azure Data Factory",
+      "Azure Table Storage"
+    ],
+    answer: [
+      "SQL Server",
+      "Common Data Service"
+    ],
+    explanation: "SQL Server and Dataverse/Common Data Service support delegation for filtering and sorting large datasets."
+  },
+  {
+    question: "Dynamics 365 Finance without third-party add-ons: warehouse employees scan barcodes with mobile devices. Which solution?",
+    options: [
+      "Out-of-the-box",
+      "Logic apps",
+      "Power Automate",
+      "Common Data Service"
+    ],
+    answer: "Out-of-the-box",
+    explanation: "Dynamics 365 Finance includes warehouse mobile device barcode scanning capabilities."
+  },
+  {
+    question: "Dynamics 365 Field Service: technician location is communicated by text message. Which solution?",
+    options: [
+      "Common Data Service",
+      "Workflow",
+      "Power Automate"
+    ],
+    answer: "Power Automate",
+    explanation: "Power Automate can be used for Field Service mobile processes, notifications, and messaging scenarios."
+  },
+  {
+    question: "Model-driven app uses Exchange Online to send email. What configuration?",
+    options: [
+      "Server-side synchronization",
+      "Server-based integration",
+      "Dual-write",
+      "System settings"
+    ],
+    answer: "Server-side synchronization",
+    explanation: "Exchange Online email processing uses server-side synchronization."
+  },
+  {
+    question: "Model-driven app uses SharePoint Online for document storage. What configuration?",
+    options: [
+      "Server-side synchronization",
+      "Server-based integration",
+      "Dual-write",
+      "System settings"
+    ],
+    answer: "Server-based integration",
+    explanation: "SharePoint document management integration uses server-based integration."
+  },
+  {
+    question: "Order processing app: complex business logic, external systems, up to six minutes, must complete in one operation. What should you recommend?",
+    options: [
+      "Asynchronous workflow with custom workflow activity",
+      "Real-time workflow with custom action",
+      "Webhook that connects to an Azure Function",
+      "Asynchronous plug-in"
+    ],
+    answer: "Webhook that connects to an Azure Function",
+    explanation: "For long-running processing that may take several minutes and integrates with external systems, a webhook connected to an Azure Function is the best fit from the listed options."
+  },
+  {
+    question: "Non-profit portal: create portal using a portal template. Which module?",
+    options: [
+      "Starter portal",
+      "Community portal",
+      "Customer self-service portal"
+    ],
+    answer: "Customer self-service portal",
+    explanation: "The Customer self-service portal template provides a good base for external users and self-service processes."
+  },
+  {
+    question: "Non-profit portal: manage volunteer registration with multiple related entities. Which module?",
+    options: [
+      "Entity form metadata",
+      "Webform",
+      "Webform step"
+    ],
+    answer: "Webform",
+    explanation: "A webform supports multi-step portal processes and can work with multiple related entities."
+  },
+  {
+    question: "Power Apps portal: which entities can include Liquid code? Select three.",
+    options: [
+      "Content snippet",
+      "Web page",
+      "Web template",
+      "Page template",
+      "Portal settings"
+    ],
+    answer: [
+      "Content snippet",
+      "Web page",
+      "Web template"
+    ],
+    explanation: "Liquid can be used in portal web pages, web templates, and content snippets."
+  },
+  {
+    question: "A company is migrating from an on-premises Dynamics 365 installation to a Power Platform solution. You are creating plug-ins for the new solution. Which isolation mode should you use?",
+    options: [
+      "None",
+      "Global Assembly Cache (GAC)",
+      "Sandbox",
+      "Disk"
+    ],
+    answer: "Sandbox",
+    explanation: "Power Platform and Dataverse support plug-ins running in Sandbox isolation mode. Sandbox provides security and isolation for cloud deployments."
+  },
+  {
+    question: "An organization uses a public-facing Power Apps portal. You need to change the layout of a specific web page. What are two possible ways to achieve the goal?",
+    options: [
+      "Select the Portal Management app and then select Edit.",
+      "Select the Portal Management app and then select Play.",
+      "Select the portal app and then select Manage.",
+      "Select the portal app and then select Edit."
+    ],
+    answer: [
+      "Select the Portal Management app and then select Play.",
+      "Select the portal app and then select Edit."
+    ],
+    explanation: "You can modify portal page layout either through portal management metadata or by editing the portal app directly."
+  },
+  {
+    question: "You are building a custom Azure application to process resumes for the HR department. The application parses resumes and must save contacts and skills into Dataverse. Which mechanism should you use?",
+    options: [
+      "Power Automate",
+      "Common Data Service plug-in",
+      "Web API",
+      "Custom workflow activity"
+    ],
+    answer: "Web API",
+    explanation: "External applications such as Azure services should use the Dataverse Web API to create and update records programmatically."
+  },
+  {
+  question: "A Dataverse plug-in manages the Update message of an entity. The plug-in must access record column values before the operation starts and compare them to post-update values. What should you do?",
+  options: [
+    "Add the code to the plug-in to read the record from the InputParameters collection.",
+    "Register a pre-image by using the Plug-in Registration Tool. Add the code to the plug-in to read the image from the PreEntityImages collection.",
+    "Register a post-image by using the Plug-in Registration Tool. Add the code to the plug-in to read the image from the PostEntityImages collection.",
+    "Add the code to the plug-in to query the data from Dataverse by using the API call based on the record ID."
+  ],
+  answer: "Register a pre-image by using the Plug-in Registration Tool. Add the code to the plug-in to read the image from the PreEntityImages collection.",
+  explanation: "A pre-image captures the row values before the update operation. Use PreEntityImages when a plug-in needs to compare old values to the updated values."
+},
+
+{
+  question: "A company designs data integration with an external system by using virtual tables. Solution: Implement an OData v4 provider as the data source. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "Yes",
+  explanation: "Virtual tables can use an OData v4 data provider to expose external system data in Dataverse."
+},
+
+{
+  question: "A company designs data integration with an external system by using virtual tables. Solution: Assign record ownership to individual users. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Virtual tables do not use normal Dataverse ownership the same way standard Dataverse tables do. Assigning ownership to individual users does not implement virtual tables."
+},
+
+{
+  question: "A company designs data integration with an external system by using virtual tables. Solution: Use a table that has a GUID as its primary key. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "Yes",
+  explanation: "Dataverse rows use GUIDs as primary keys. For virtual tables, the external data source must expose a unique identifier that can map correctly to Dataverse."
+},
+{
+  question: "A company designs data integration with an external system by using virtual tables. Solution: Create a calculated column on the virtual table. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Virtual tables do not support calculated columns because the data remains in the external data source rather than Dataverse."
+},
+
+{
+  question: "A company designs a Microsoft Dataverse Custom API to encapsulate business logic. The business logic must not allow customization or modification. Which parameter value should you set?",
+  options: [
+    "Execute Privilege Name to prv_SdkMessageProcessingStep",
+    "Enabled for Workflow to No",
+    "Binding Type to Entity",
+    "Custom Processing Step to None"
+  ],
+  answer: "Custom Processing Step to None",
+  explanation: "Setting Custom Processing Step to None prevents other plug-ins or processing steps from extending or modifying the Custom API behavior."
+},
+
+{
+  question: "A model-driven app form loads slowly. Which three control types should you evaluate to improve loading performance?",
+  options: [
+    "Timeline",
+    "Quick view form",
+    "iFrame",
+    "Lookup"
+  ],
+  answer: [
+    "Quick view form",
+    "iFrame",
+    "Lookup"
+  ],
+  explanation: "Quick View Forms, iFrames, and Lookups can significantly impact form load performance and should be reviewed when optimizing a model-driven form."
+},
+{
+  question: "You are creating a FetchXML query. The query must return data from a table and return filtered data from a related table. Which two FetchXML elements should you use?",
+  options: [
+    "attribute",
+    "link-entity",
+    "alias",
+    "condition"
+  ],
+  answer: [
+    "link-entity",
+    "condition"
+  ],
+  explanation: "Use <link-entity> to join a related table and <condition> to filter the returned records."
+},
+
+{
+  question: "A model-driven app has a top-level business unit with child business units BusA, BusB, and BusC. BusA users have security roles from BusB and BusC and can view records in those business units. All privileges are set to the Business Unit level. Which two actions should you perform?",
+  options: [
+    "Turn off the feature that controls record ownership across business units.",
+    "Create a security role for BusA users in the parent business unit with privileges set to Business Unit level.",
+    "Move BusA users to the parent business unit and assign security roles with Parent: Child Business Unit privileges.",
+    "Ensure security role privileges are set to User level."
+  ],
+  answer: [
+    "Turn off the feature that controls record ownership across business units.",
+    "Create a security role for BusA users in the parent business unit with privileges set to Business Unit level."
+  ],
+  explanation: "Disabling cross-business-unit ownership and using a parent business unit security role with Business Unit privileges limits users to records in their own business unit."
+},
+
+{
+  question: "A canvas app uses a local collection named collAccounts to display Account data. Users report missing Account rows after deployment. How should you modify the Power Fx formula?",
+  options: [
+    "Sort(Accounts, 'Account Name', SortOrder.Descending)",
+    "Sort(collAccounts, 'Account Name', SortOrder.Descending)",
+    "Filter(Sort(Accounts, 'Account Name', SortOrder.Descending), IsBlank('Account Name') = false)",
+    "collAccounts"
+  ],
+  answer: "Filter(Sort(Accounts, 'Account Name', SortOrder.Descending), IsBlank('Account Name') = false)",
+  explanation: "Query the Dataverse Accounts table directly instead of the cached collection so the gallery always displays the latest records while filtering out blank account names."
+},
+{
+  question: "You are designing Dataverse tables for an IoT solution. Sensor IoT data is high-volume telemetry, while sensor device configuration is relatively static. Which Dataverse table type should you use for each?",
+  options: [
+    "Sensor IoT data → Standard | Sensor device configuration → Standard",
+    "Sensor IoT data → Elastic | Sensor device configuration → Standard",
+    "Sensor IoT data → Virtual | Sensor device configuration → Standard",
+    "Sensor IoT data → Elastic | Sensor device configuration → Virtual"
+  ],
+  answer: "Sensor IoT data → Elastic | Sensor device configuration → Standard",
+  explanation: "Elastic tables are designed for very large volumes of high-throughput data such as IoT telemetry, logs, and events. Standard tables provide full Dataverse capabilities, including relationships, business rules, auditing, and transactions, making them the best choice for business data such as sensor configuration. Virtual tables are different because they don't store data in Dataverse at all. Instead, they expose data that remains in an external system."
+},
+{
+  question: "A university uses Dynamics 365 Sales. Departments should only access their own Opportunity records, but employees from multiple departments sometimes need to collaborate. Solution: Use position hierarchy security and define the departments as positions. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Position hierarchy security is based on an organization's reporting hierarchy, not departments. Sharing, access teams, or manager hierarchy are more appropriate for cross-department collaboration."
+},
+
+{
+  question: "A financial institution needs the Account Balance field to be visible only to specific users. Which three actions should you perform?",
+  options: [
+    "Set the field to Read-Only and publish the entity.",
+    "Set the field permission Allow Read to Yes and add the users to the members section.",
+    "Create a security role and add the specific users to the role.",
+    "Enable field security and publish the entity.",
+    "Create a field security profile."
+  ],
+  answer: [
+    "Set the field permission Allow Read to Yes and add the users to the members section.",
+    "Enable field security and publish the entity.",
+    "Create a field security profile."
+  ],
+  explanation: "Field-level security requires enabling field security, creating a Field Security Profile, and granting permissions to members of that profile."
+},
+
+{
+  question: "You are designing a relationship in Dataverse. You need assignment actions to cascade only to active related records. Which settings should you choose?",
+  options: [
+    "Referential + Cascade All",
+    "Parental + Cascade User-Owned",
+    "Configurable Cascading + Cascade Active",
+    "Referential, Restrict Delete + Cascade None"
+  ],
+  answer: "Configurable Cascading + Cascade Active",
+  explanation: "Configurable Cascading lets you specify the behavior for each action independently. Selecting Cascade Active applies the action only to active related records."
+},
 ];
 
-const steps = 32;
-let sequence = Array.from({length: notes.length}, () => Array(steps).fill(0));
-let currentStep = 0;
-let playing = false;
-let nextStepTime = 0;
-const noteEls = [];
+const QUESTIONS_PER_RUN = allQuestions.length;
+const MEMORY_INTERVAL = 2;
 
-// PATTERN DATA 
-const builtIn = {
-  // LESSON SET: rhythm and polyrhythm progression
-  "Lesson 1 - 3 Over 4": { D3: [0, 8, 16, 24], F4: [0, 10, 20, 30], A3: [4, 12, 20, 28] },
-  "Lesson 2 - 5 Cycle Against 4": { D3: [0, 8, 16, 24], G4: [0, 5, 10, 15, 20, 25, 30], A3: [4, 12, 20, 28] },
-  "Lesson 3 - Call and Response": { D3: [0, 4, 8, 12], A3: [2, 6, 10, 14], C4: [18, 22, 26, 30], D4: [19, 23, 27, 31] },
-  "Lesson 4 - Layered Polyrhythm": { D3: [0, 8, 16, 24], F4: [0, 6, 12, 18, 24, 30], G4: [3, 11, 19, 27], A4: [5, 15, 21, 31] },
-  "Lesson 5 - Rotating Phrase": { D3: [0, 9, 18, 27], A3: [4, 13, 22, 31], C4: [2, 8, 14, 20, 26], F4: [6, 15, 24] },
-  "Lesson 6 - Full Polyrhythmic Study": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [5, 10, 15, 20, 25, 30], F4: [0, 12, 24], G4: [7, 14, 21, 28], A4: [2, 18, 26, 31] },
-  "Lesson 7 - Cross Accent Matrix": { D3: [0, 8, 16, 24], A3: [2, 7, 10, 15, 18, 23, 26, 31], D4: [4, 12, 20, 28], F4: [6, 14, 22, 30] },
-  "Lesson 8 - 7 Cycle Lattice": { D3: [0, 8, 16, 24], G4: [0, 7, 14, 21, 28], Bb3: [3, 10, 17, 24, 31], F4: [5, 13, 21, 29] },
-  "Lesson 9 - Rotating 3 5 4 Grid": { D3: [0, 8, 16, 24], A3: [0, 5, 10, 15, 20, 25, 30], C4: [2, 9, 16, 23, 30], G4: [4, 12, 20, 28] },
-  "Lesson 10 - Advanced Poly Study": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], Bb3: [5, 14, 21, 30], C4: [2, 10, 18, 26], F4: [0, 12, 24], G4: [7, 15, 23, 31], A4: [6, 17, 22, 29] },
-  "Lesson 11 - Offset Bell Cycle": { D3: [0, 8, 16, 24], D4: [1, 9, 17, 25], F4: [4, 11, 20, 27], A4: [6, 14, 22, 30], G4: [3, 18, 26] },
-  "Lesson 12 - Expanding Polyrhythm": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [0, 6, 12, 18, 24, 30], E4: [5, 13, 21, 29], G4: [2, 11, 19, 27], A4: [7, 15, 23, 31] },
-  "Lesson 13 - Ritual Resolution": { D3: [0, 8, 16, 24], Bb3: [2, 9, 18, 25], C4: [4, 12, 20, 28], D4: [6, 14, 22, 30], F4: [10, 17, 26], A4: [15, 31] },
-  "Lesson 14 - Dense Phase Study": { D3: [0, 8, 16, 24], A3: [1, 9, 17, 25], C4: [3, 8, 13, 18, 23, 28], D4: [6, 14, 22, 30], F4: [0, 10, 20, 30], G4: [5, 16, 27] },
-  "Lesson 15 - Master Polymeter": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], Bb3: [1, 6, 12, 17, 23, 28], C4: [5, 13, 21, 29], D4: [2, 10, 18, 26], F4: [0, 7, 14, 21, 28], G4: [4, 15, 24, 31], A4: [9, 20, 30] },
+const memoryCards = [
+  "Skill Bot sequence → Manifest → Register in Power Virtual Agents → Register in Azure AD",
+  "Cloud plug-ins → Sandbox",
+  "External app writes Dataverse → Web API",
+  "Portal page layout → Portal Management (Play) or Portal Edit",
+  "External primary key (integer) → Virtual Table",
+  "Need external data to be read & updated → Virtual Table",
+  "Need external data available to all Dataverse clients → Custom Connector",
+  "Phone number formatting → Business Rule | Percentage calculation → Formula Column",
+  "SortByColumns → sort | AddColumns → add calculated columns | Filter → filter rows | Concatenate → join text | 'Last Name' → sort column",
+  "Edit Accounts → Security Role | Account table Update → User Update | Notes table Append To → User Append To | Team privileges → Microsoft Entra ID Security Group",
+  "Vehicle licensing data → Entity | Red light camera photos → Azure Storage Blob | Traffic violations → Entity",
+  "Package deployment: Create Dynamics 365 Package Project → Add files to PkgFolder → Define ImportConfig.xml → Build package",
+  "Hierarchy visualization → One-to-many | One record references one record → One-to-many | Many records reference many records → Many-to-many",
+  "Class table ownership → User or Team | Class history → Student = Many-to-one | Relationship behavior → Parental",
+  "Managers view BU records → Role-based security | Restrict field visibility → Field-level security | Share specific records → Record-level security"
+];
 
-  // EXTENDED LESSON SET (16–45)
-  "Lesson 16 - Offset Triplet Grid": { D3: [0, 8, 16, 24], A3: [3, 9, 15, 21, 27], C4: [6, 12, 18, 24, 30] },
-  "Lesson 17 - 9 Cycle Overlay": { D3: [0, 8, 16, 24], F4: [0, 9, 18, 27], A4: [4, 13, 22, 31] },
-  "Lesson 18 - Expanding Cross Rhythm": { D3: [0, 8, 16, 24], A3: [2, 10, 18, 26], Bb3: [5, 13, 21, 29], C4: [7, 15, 23, 31] },
-  "Lesson 19 - Syncopated Spiral": { D3: [0, 7, 15, 23], A3: [3, 11, 19, 27], D4: [5, 14, 22, 30], F4: [9, 17, 25] },
-  "Lesson 20 - Dense 3 Layer Pulse": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [2, 6, 10, 14, 18, 22, 26, 30] },
-  "Lesson 21 - Rotating Accent Shift": { D3: [0, 8, 16, 24], F4: [2, 11, 20, 29], A4: [4, 13, 22, 31] },
-  "Lesson 22 - 11 Cycle Drift": { D3: [0, 8, 16, 24], G4: [0, 11, 22], Bb3: [5, 16, 27], F4: [3, 14, 25] },
-  "Lesson 23 - Phase Sliding Pattern": { D3: [0, 8, 16, 24], A3: [1, 9, 17, 25], C4: [3, 10, 18, 26], E4: [6, 14, 22, 30] },
-  "Lesson 24 - Multi Layer Weave": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], F4: [6, 14, 22, 30], G4: [3, 11, 19, 27], A4: [5, 15, 25] },
-  "Lesson 25 - Broken Loop Grid": { D3: [0, 6, 13, 19, 26], C4: [2, 9, 15, 22, 28], F4: [4, 11, 17, 24, 30] },
-  "Lesson 26 - Dense Poly Mesh": { D3: [0, 8, 16, 24], A3: [2, 6, 10, 14, 18, 22, 26, 30], C4: [1, 9, 17, 25], F4: [3, 11, 19, 27] },
-  "Lesson 27 - Offset Mirror Cycles": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], A4: [2, 10, 18, 26], F4: [6, 14, 22, 30] },
-  "Lesson 28 - Expanding Spiral Matrix": { D3: [0, 8, 16, 24], C4: [2, 12, 22, 30], D4: [4, 14, 24], F4: [6, 18, 28], A4: [10, 20] },
-  "Lesson 29 - Triplet vs Quad": { D3: [0, 8, 16, 24], A3: [0, 5, 10, 15, 20, 25, 30], C4: [2, 10, 18, 26] },
-  "Lesson 30 - Harmonic Polymeter": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], F4: [1, 9, 17, 25] },
-  "Lesson 31 - Drift Expansion": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], G4: [7, 15, 23, 31], Bb3: [2, 10, 18, 26] },
-  "Lesson 32 - Cross Pulse Cascade": { D3: [0, 8, 16, 24], F4: [0, 6, 12, 18, 24, 30], A4: [3, 11, 19, 27] },
-  "Lesson 33 - Phase Displacement": { D3: [0, 8, 16, 24], A3: [1, 9, 17, 25], C4: [2, 10, 18, 26], D4: [3, 11, 19, 27] },
-  "Lesson 34 - Rotating Density": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [2, 6, 10, 14, 18, 22, 26, 30], F4: [5, 15, 25] },
-  "Lesson 35 - Dense Interlock": { D3: [0, 4, 8, 12, 16, 20, 24, 28], A3: [2, 6, 10, 14, 18, 22, 26, 30], C4: [1, 5, 9, 13, 17, 21, 25, 29] },
-  "Lesson 36 - Expanding Phase Grid": { D3: [0, 8, 16, 24], F4: [0, 10, 20, 30], A4: [5, 15, 25], C4: [2, 12, 22] },
-  "Lesson 37 - Offset Cluster": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [5, 13, 21, 29], F4: [7, 15, 23, 31] },
-  "Lesson 38 - Multi Phase Spiral": { D3: [0, 8, 16, 24], A3: [2, 10, 18, 26], D4: [4, 12, 20, 28], G4: [6, 14, 22, 30] },
-  "Lesson 39 - Advanced Cycle Overlay": { D3: [0, 8, 16, 24], F4: [0, 9, 18, 27], A4: [4, 13, 22, 31], C4: [2, 11, 20, 29] },
-  "Lesson 40 - Complex Weave Matrix": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], F4: [1, 9, 17, 25], G4: [5, 15, 25] },
-  "Lesson 41 - Dense Spiral Expansion": { D3: [0, 8, 16, 24], A3: [4, 12, 20, 28], C4: [2, 10, 18, 26], D4: [6, 14, 22, 30], F4: [1, 9, 17, 25] },
-  "Lesson 42 - Cross Density Engine": { D3: [0, 8, 16, 24], A3: [2, 6, 10, 14, 18, 22, 26, 30], F4: [3, 11, 19, 27], G4: [5, 15, 25] },
-  "Lesson 43 - Rotating Poly Grid": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], D4: [1, 9, 17, 25] },
-  "Lesson 44 - Hyper Polyrhythm": { D3: [0, 8, 16, 24], A3: [2, 10, 18, 26], C4: [5, 13, 21, 29], F4: [7, 15, 23, 31], G4: [3, 11, 19, 27] },
-  "Lesson 45 - Master Density Field": { D3: [0, 8, 16, 24], A3: [1, 5, 9, 13, 17, 21, 25, 29], C4: [2, 6, 10, 14, 18, 22, 26, 30], F4: [3, 11, 19, 27], G4: [7, 15, 23, 31] },
+const MEMORY_CARDS_PER_RUN = memoryCards.length;
 
-  // BUILT-IN PATTERNS
-  "Deep Journey": { D3: [0, 7, 16, 23], A3: [4, 12, 20, 28], D4: [2, 10, 18, 26], F4: [6, 14, 22, 30] },
-  "Interlocking Groove": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], Bb3: [5, 13, 21, 29], C4: [2, 10, 18, 26], D4: [6, 14, 22, 30] },
-  "Rolling Polyrhythm": { D3: [0, 9, 18, 27], F4: [2, 11, 20, 29], G4: [4, 13, 22, 31], A4: [6, 15, 24] },
-  "Melodic Wave": { D3: [0, 16], A3: [2, 6, 10, 14, 18, 22, 26, 30], C4: [3, 7, 11, 15, 19, 23, 27, 31], D4: [4, 12, 20, 28], E4: [5, 13, 21, 29] },
-  "Call Response": { D3: [0, 4, 8, 12, 16, 20, 24, 28], A3: [2, 6, 10, 14], C4: [18, 22, 26, 30], D4: [3, 11, 19, 27] },
-  "Tribal Complex": { D3: [0, 5, 10, 15, 20, 25, 30], F4: [2, 7, 12, 17, 22, 27], G4: [3, 9, 14, 21, 26, 31], A3: [6, 18, 24] },
-  "Spiral Melody Advanced": { D3: [0, 16], Bb3: [2, 18], C4: [4, 20], D4: [6, 22], E4: [8, 24], F4: [10, 26], G4: [12, 28], A4: [14, 30], G4: [17, 25], F4: [19, 27], E4: [21, 29] },
-  "Dense Texture": { D3: [0, 4, 8, 12, 16, 20, 24, 28], A3: [1, 5, 9, 13, 17, 21, 25, 29], Bb3: [3, 7, 11, 15, 19, 23, 27, 31], D4: [2, 6, 10, 14, 18, 22, 26, 30] },
+let quizSlides = [];
+let quizQuestions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let selectedAnswers = [];
+let answerChecked = false;
 
-  // NEW mystical / esoteric inspired
-  "Byzantine Echo": { D3: [0, 12, 24], Bb3: [2, 14, 26], C4: [4, 16, 28], D4: [6, 18, 30], F4: [8, 20], G4: [10, 22] },
-  "Sufi Pulse": { D3: [0, 8, 16, 24], A3: [3, 11, 19, 27], C4: [6, 14, 22, 30], D4: [2, 10, 18, 26] },
-  "Temple Bells": { D3: [0, 16], A4: [4, 12, 20, 28], F4: [6, 22], C4: [10, 26] },
-  "Mystic Cycle": { D3: [0, 7, 15, 23], Bb3: [3, 11, 19, 27], D4: [5, 13, 21, 29], G4: [9, 17, 25] },
-  "Ancient Steps": { D3: [0, 4, 9, 13, 18, 22, 27], A3: [2, 11, 20, 29], F4: [6, 15, 24] },
-  "Echo Spiral": { D3: [0, 16], A3: [2, 18], C4: [4, 20], E4: [6, 22], G4: [8, 24], A4: [10, 26], G4: [12, 28] },
-  "Desert Rhythm": { D3: [0, 6, 12, 18, 24, 30], Bb3: [3, 9, 15, 21, 27], F4: [5, 11, 17, 23, 29] },
-  "Hidden Chant": { D3: [0, 8, 16, 24], C4: [4, 12, 20, 28], E4: [2, 10, 18, 26], A4: [6, 14, 22, 30] },
-  "Obsidian Flow": { D3: [0, 5, 11, 17, 23, 29], G4: [2, 8, 14, 20, 26], A4: [4, 10, 16, 22, 28] },
-  "Lunar Drift": { D3: [0, 16], F4: [3, 19], A4: [6, 22], C4: [9, 25], E4: [12, 28] },
+function shuffle(array) {
+  const copy = [...array];
 
-  // NEW advanced set
-  "Fractal Pulse": { D3: [0, 5, 13, 21, 29], A3: [2, 10, 18, 26], C4: [7, 15, 23, 31] },
-  "Dervish Spin": { D3: [0, 8, 16, 24], F4: [3, 11, 19, 27], A4: [6, 14, 22, 30], G4: [9, 17, 25] },
-  "Broken Symmetry": { D3: [0, 6, 13, 19, 26], Bb3: [2, 9, 15, 22, 28], D4: [4, 11, 17, 24, 30] },
-  "Glass Harmonics": { D3: [0, 16], A4: [2, 6, 10, 14, 18, 22, 26, 30], E4: [4, 12, 20, 28] },
-  "Shadow Steps": { D3: [0, 7, 14, 21, 28], F4: [3, 10, 17, 24, 31], G4: [5, 12, 19, 26] },
-  "Ascending Ritual": { D3: [0], A3: [4], Bb3: [8], C4: [12], D4: [16], E4: [20], F4: [24], G4: [28] },
-  "Time Weave": { D3: [0, 9, 18, 27], A3: [4, 13, 22, 31], D4: [6, 15, 24], F4: [2, 11, 20, 29] },
-  "Mirror Pulse": { D3: [0, 8, 16, 24], C4: [4, 12, 20, 28], A3: [2, 6, 10, 14], A4: [18, 22, 26, 30] },
-  "Ancient Engine": { D3: [0, 4, 8, 12, 16, 20, 24, 28], F4: [2, 6, 10, 14, 18, 22, 26, 30], G4: [1, 9, 17, 25] },
-  "Drift Lattice": { D3: [0, 11, 22], A3: [5, 16, 27], C4: [3, 14, 25], E4: [7, 18, 29] }
-};
-
-// UI BUILDER
-function init() {
-  const hp = document.getElementById('handpan');
-  notes.forEach((n, i) => {
-    const el = document.createElement('div');
-    el.className = 'note-btn';
-    el.style.left = n.x + '%';
-    el.style.top = n.y + '%';
-    el.textContent = n.n;
-    el.onclick = () => { playNote(i); triggerVisualNote(i); };
-    hp.appendChild(el);
-    noteEls.push(el);
-  });
-
-  const sel = document.getElementById('patternSelect');
-  sel.innerHTML = '<option value="">-- Select Lesson/Pattern --</option>';
-  Object.keys(builtIn).forEach(k => {
-    const opt = document.createElement('option');
-    opt.value = k;
-    opt.textContent = k;
-    sel.appendChild(opt);
-  });
-
-  renderGrid();
-}
-
-function renderGrid() {
-  const seq = document.getElementById('seq');
-  seq.innerHTML = '';
-  notes.forEach((note, r) => {
-    const row = document.createElement('div');
-    row.className = 'row';
-    const label = document.createElement('div');
-    label.className = 'row-label';
-    label.textContent = note.n;
-    row.appendChild(label);
-
-    for(let c=0; c<steps; c++) {
-      const cell = document.createElement('div');
-      cell.className = 'cell' + (sequence[r][c] ? ' active' : '');
-      cell.id = `cell-${r}-${c}`;
-      cell.onclick = () => {
-        sequence[r][c] = sequence[r][c] ? 0 : 1;
-        cell.classList.toggle('active');
-      };
-      row.appendChild(cell);
-    }
-    seq.appendChild(row);
-  });
-}
-
-function triggerVisualNote(index) {
-  noteEls[index].classList.add('playing');
-  setTimeout(() => noteEls[index].classList.remove('playing'), 150);
-}
-
-function playNote(i) {
-  const now = ctx.currentTime;
-  const osc = ctx.createOscillator();
-  const g = ctx.createGain();
-  osc.frequency.setValueAtTime(notes[i].f, now);
-  g.gain.setValueAtTime(0.3, now);
-  g.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
-  osc.connect(g);
-  g.connect(ctx.destination);
-  osc.start();
-  osc.stop(now + 0.6);
-}
-
-// SCHEDULER
-function scheduler() {
-  while (nextStepTime < ctx.currentTime + 0.1) {
-    playStep(currentStep, nextStepTime);
-    nextStepTime += (60 / document.getElementById('bpm').value) / 4;
-    currentStep = (currentStep + 1) % steps;
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
   }
-  if (playing) requestAnimationFrame(scheduler);
+
+  return copy;
 }
 
-function playStep(s, time) {
-  notes.forEach((n, r) => {
-    if (sequence[r][s]) {
-      const delay = Math.max(0, (time - ctx.currentTime) * 1000);
-      setTimeout(() => {
-        playNote(r);
-        triggerVisualNote(r);
-      }, delay);
+function normalizeAnswer(answer) {
+  return Array.isArray(answer) ? [...answer].sort() : [answer].sort();
+}
+
+function answersMatch(selected, correct) {
+  const selectedSorted = [...selected].sort();
+  const correctSorted = normalizeAnswer(correct);
+
+  return selectedSorted.length === correctSorted.length &&
+    selectedSorted.every((value, index) => value === correctSorted[index]);
+}
+
+function formatAnswer(answer) {
+  return Array.isArray(answer) ? answer.join(", ") : answer;
+}
+
+function makeFlashcards() {
+  return memoryCards.map(sentence => ({
+    type: "flashcard",
+    sentence
+  }));
+}
+
+function buildSequentialSlides() {
+  const slides = [];
+  const cards = makeFlashcards();
+  let cardIndex = 0;
+
+  allQuestions.forEach((question, index) => {
+    slides.push({ ...question, type: "question" });
+
+    const shouldInsertMemoryCard =
+      (index + 1) % MEMORY_INTERVAL === 0 &&
+      cardIndex < cards.length;
+
+    if (shouldInsertMemoryCard) {
+      slides.push(cards[cardIndex]);
+      cardIndex++;
     }
-    // Update Playhead Visuals
-    const cell = document.getElementById(`cell-${r}-${s}`);
-    const prev = document.getElementById(`cell-${r}-${(s + steps - 1) % steps}`);
-    if(cell) cell.classList.add('playhead');
-    if(prev) prev.classList.remove('playhead');
+  });
+
+  while (cardIndex < cards.length) {
+    slides.push(cards[cardIndex]);
+    cardIndex++;
+  }
+
+  return slides;
+}
+
+function getQuestionNumberForSlide(slideIndex) {
+  return quizSlides
+    .slice(0, slideIndex + 1)
+    .filter(slide => slide.type !== "flashcard")
+    .length;
+}
+
+function startQuiz() {
+  quizQuestions = [...allQuestions];
+  quizSlides = buildSequentialSlides();
+
+  currentQuestionIndex = 0;
+  score = 0;
+  selectedAnswers = [];
+  answerChecked = false;
+
+  document.getElementById("quiz").style.display = "block";
+  document.getElementById("result").innerHTML = "";
+
+  showQuestion();
+}
+
+function showQuestion() {
+  selectedAnswers = [];
+  answerChecked = false;
+
+  const current = quizSlides[currentQuestionIndex];
+
+  document.getElementById("feedback").innerHTML = "";
+  document.getElementById("actionButton").innerText = current.type === "flashcard" ? "OK" : "Check Answer";
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+
+  if (current.type === "flashcard") {
+    document.getElementById("progress").innerText =
+      `Memory Card ${currentQuestionIndex + 1} of ${quizSlides.length}`;
+
+    document.getElementById("question").innerHTML = `
+      <div style="font-size:18px;color:#555;margin-bottom:12px;">Non-scored memory sentence</div>
+      <div style="font-size:26px;">${current.sentence}</div>
+    `;
+
+    document.getElementById("feedback").innerHTML =
+      `<span class="correct">Read it, say it once, then hit OK.</span>`;
+
+    return;
+  }
+
+  const isMulti = Array.isArray(current.answer);
+  const questionNumber = getQuestionNumberForSlide(currentQuestionIndex);
+
+  document.getElementById("progress").innerText =
+    `Question ${questionNumber} of ${quizQuestions.length}`;
+
+  document.getElementById("question").innerText =
+    current.question + (isMulti ? " (Select all that apply)" : "");
+
+  shuffle(current.options).forEach(option => {
+    const label = document.createElement("label");
+    label.className = "option";
+
+    const input = document.createElement("input");
+    input.type = isMulti ? "checkbox" : "radio";
+    input.name = "answer";
+    input.value = option;
+
+    input.addEventListener("change", function () {
+      if (isMulti) {
+        if (this.checked) {
+          selectedAnswers.push(this.value);
+        } else {
+          selectedAnswers = selectedAnswers.filter(x => x !== this.value);
+        }
+      } else {
+        selectedAnswers = [this.value];
+      }
+    });
+
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(option));
+    optionsDiv.appendChild(label);
   });
 }
 
-// EVENT LISTENERS
-document.getElementById('play').onclick = () => {
-  if (ctx.state === 'suspended') ctx.resume();
-  if (!playing) {
-    playing = true;
-    nextStepTime = ctx.currentTime;
-    scheduler();
+function handleButtonClick() {
+  const current = quizSlides[currentQuestionIndex];
+
+  if (current.type === "flashcard") {
+    nextQuestion();
+    return;
   }
-};
 
-document.getElementById('stop').onclick = () => {
-  playing = false;
-  document.querySelectorAll('.cell').forEach(c => c.classList.remove('playhead'));
-  currentStep = 0;
-};
+  if (!answerChecked) {
+    checkAnswer();
+  } else {
+    nextQuestion();
+  }
+}
 
-document.getElementById('clear').onclick = () => {
-  sequence = Array.from({length: notes.length}, () => Array(steps).fill(0));
-  renderGrid();
-};
+function checkAnswer() {
+  if (selectedAnswers.length === 0) {
+    alert("Pick an answer first.");
+    return;
+  }
 
-document.getElementById('patternSelect').onchange = (e) => {
-  const data = builtIn[e.target.value];
-  if(!data) return;
-  sequence = Array.from({length: notes.length}, () => Array(steps).fill(0));
-  notes.forEach((n, i) => {
-    if(data[n.n]) data[n.n].forEach(stepIdx => sequence[i][stepIdx] = 1);
-  });
-  renderGrid();
-};
+  const current = quizSlides[currentQuestionIndex];
+  const feedback = document.getElementById("feedback");
 
-document.getElementById('bpm').oninput = (e) => {
-  document.getElementById('bpmVal').textContent = e.target.value;
-};
+  if (answersMatch(selectedAnswers, current.answer)) {
+    score++;
+    feedback.innerHTML = `<span class="correct">Correct ✅</span>${current.explanation ? `<br><br><b>Why:</b> ${current.explanation}` : ""}`;
+  } else {
+    feedback.innerHTML = `
+      <span class="wrong">Incorrect ❌</span><br>
+      Right answer: <span class="correct">${formatAnswer(current.answer)}</span>
+      ${current.explanation ? `<br><br><b>Why:</b> ${current.explanation}` : ""}
+      ${current.incorrectNotes ? `<br><br><b>Why your answer is incorrect:</b> ${current.incorrectNotes[selectedAnswers[0]] || ""}` : ""}
+    `;
+  }
 
-init();
+  answerChecked = true;
+  document.getElementById("actionButton").innerText = "Next";
+}
+
+function nextQuestion() {
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < quizSlides.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById("quiz").style.display = "none";
+
+  const percent = Math.round((score / quizQuestions.length) * 100);
+
+  document.getElementById("result").innerHTML = `
+    Final Score: ${score} / ${quizQuestions.length}<br>
+    Percentage: ${percent}%<br>
+    Non-scored memory cards shown: ${MEMORY_CARDS_PER_RUN}<br><br>
+    <button onclick="startQuiz()">Restart Sequential Quiz</button>
+  `;
+}
+
+startQuiz();
 </script>
+
 </body>
 </html>
