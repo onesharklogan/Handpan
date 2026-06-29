@@ -113,6 +113,65 @@
 <script>
 const allQuestions = [
 {
+  question: "A canvas app data source has columns Id, Value1, and Value2. Id is always unique, but Value1 and Value2 may not be. You need to modify Value2 for a single row when you know Id and Value1, and delete all rows with a specified Value1. Which functions should you use?",
+  options: [
+    "Modify knowing Id and Value1 → Update | Delete knowing Value1 → Remove",
+    "Modify knowing Id and Value1 → UpdateIf | Delete knowing Value1 → RemoveIf",
+    "Modify knowing Id and Value1 → RemoveIf | Delete knowing Value1 → UpdateIf",
+    "Modify knowing Id and Value1 → Remove | Delete knowing Value1 → Update"
+  ],
+  answer: "Modify knowing Id and Value1 → UpdateIf | Delete knowing Value1 → RemoveIf",
+  explanation: "Memory: If = condition. UpdateIf changes rows matching a condition. RemoveIf deletes rows matching a condition."
+},
+
+{
+  question: "A canvas app uses a connection to create account and contact records. Which statements are true when testing error behavior?",
+  options: [
+    "Invalid connection string or credentials show an error message; similar account still creates; contact always creates.",
+    "Invalid connection string or credentials show an error message; similar account will not be created; contact will not always be created.",
+    "Invalid connection string or credentials do not show an error; similar account will not be created; contact always creates.",
+    "Invalid connection string or credentials show an error message; similar account will be created; contact will not always be created."
+  ],
+  answer: "Invalid connection string or credentials show an error message; similar account will not be created; contact will not always be created.",
+  explanation: "Memory: Bad connection = error. Duplicate/similar account = no create. Contact is not guaranteed."
+},
+
+{
+  question: "A managed solution with a real-time workflow is imported into a test environment. The workflow populates a lookup column with a default value. A tester gets the error: 'Record is not available.' What should you do?",
+  options: [
+    "Add missing lookup table records to the solution.",
+    "Go to the test environment and manually create missing lookup table records.",
+    "Use the Configuration Migration Tool to extract the lookup table data from development and import it into test.",
+    "Deactivate and reactivate the real-time workflow."
+  ],
+  answer: "Use the Configuration Migration Tool to extract the lookup table data from development and import it into test.",
+  explanation: "Memory: Lookup default points to data, not just schema. Move reference/config data with Configuration Migration Tool."
+},
+
+{
+  question: "You manage two Microsoft Power Platform managed solutions. Solution A changes the Account name column length to 75 and adds a categoryid column to the Account form. Solution B changes the Account name column length to 100 and adds a territoryid column to the Account form. Solution A is imported before Solution B. What is the final state?",
+  options: [
+    "Column length is 75; both columns appear in the Account Information section.",
+    "Column length is 100; both columns appear in the Account Information section.",
+    "Column length is unchanged; only the territoryid column appears in the Account Information section.",
+    "Column length is 100; both columns are added to the Conflicts tab."
+  ],
+  answer: "Column length is 100; both columns appear in the Account Information section.",
+  explanation: "Memory: Managed layer stack. Later solution wins for the same property, but form additions merge."
+},
+
+{
+  question: "Solution A contains a custom text column. Solution B contains a view that references that custom text column. Both managed solutions are installed in the destination environment. You need to delete the custom text column and apply changes in destination. Which order should you use?",
+  options: [
+    "Remove the referenced custom_text column from the Solution B view in source → Export Solution B as managed and import it → Delete the custom_text column in source → Export Solution A as managed and import it.",
+    "Delete the custom_text column in source → Export Solution A as managed and import it → Remove the column from the Solution B view → Export Solution B as managed and import it.",
+    "Export Solution A first → Delete the column in destination → Export Solution B second.",
+    "Delete the column directly in destination → Import Solution A → Import Solution B."
+  ],
+  answer: "Remove the referenced custom_text column from the Solution B view in source → Export Solution B as managed and import it → Delete the custom_text column in source → Export Solution A as managed and import it.",
+  explanation: "Memory: Unhook before delete. First remove dependencies, then delete the thing."
+},
+{
   question: "You plan to populate records in a Microsoft Dataverse entity containing an option set field. The source system has the option label but not the integer value. You are using a non-.NET programming language. What should you do?",
   options: [
     "Use Web API and use a PicklistAttributeMetadata request.",
@@ -769,7 +828,114 @@ const allQuestions = [
   answer: "Create a field-level security profile for Group1.",
   explanation: "Field-level security controls access to individual columns regardless of the form."
 },
+{
+  question: "A managed solution is imported into production with Auditing enabled on the Account table. After import, Auditing is disabled because another managed solution sits on top of it. What is the correct order to permanently enable Auditing?",
+  options: [
+    "Create a blank solution and move Account customizations into it → Remove Account from the original solution → Delete the old solution → Add Account back to the original solution → Export original solution as managed and Upgrade.",
+    "Delete the solution from development and production.",
+    "Remove the Account table from the original solution → Export and import using Upgrade → Delete the old solution → Add the Account table and all customizations back to the original solution → Export original solution and import using Upgrade.",
+    "Create a blank solution → Add Account back to the original solution → Delete the old solution → Upgrade."
+  ],
+  answer: "Remove the Account table from the original solution → Export and import using Upgrade → Delete the old solution → Add the Account table and all customizations back to the original solution → Export original solution and import using Upgrade.",
+  explanation: "Memory: Remove → Upgrade → Delete old layer → Add back → Upgrade again. You must remove the old managed layer before the new setting can win."
+},
+{
+  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Add the custom connector to a managed solution, export the managed solution, and import it into production. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Memory: Single-tenant connector ≠ portable. Simply moving it in a managed solution doesn't recreate the Entra app registration and authentication."
+},
+{
+  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Publish the custom connector to AppSource. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Memory: AppSource is for distribution to many organizations, not moving a private single-tenant connector."
+},
+{
+  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Publish the custom connector to AppSource. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Memory: AppSource is for distribution to many organizations, not moving a private single-tenant connector."
+},
+{
+  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Use the maker portal to export the custom connector, then use the maker portal to import it into the production environment. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "Yes",
+  explanation: "Memory: Custom connector = Maker Portal export/import. This is the supported way to move connectors between environments."
+},
 
+{
+  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Use Postman to export the custom connector, then use Postman to import it into the production environment. Does the solution meet the goal?",
+  options: [
+    "Yes",
+    "No"
+  ],
+  answer: "No",
+  explanation: "Memory: Postman creates connectors, not deploys them. Use the Maker Portal for environment migration."
+},
+
+{
+  question: "A model-driven app custom page receives two parameters separated by a pipe (|) character in a single string. Which TWO Power Fx formulas should you use to extract the values?",
+  options: [
+    "Left(Param(\"recordId\"), Find(\"|\", Param(\"recordId\")) - 1)",
+    "Left(Param(\"recordId\"), Len(Param(\"recordId\")) - Find(\"|\", Param(\"recordId\")))",
+    "Right(Param(\"recordId\"), Len(Param(\"recordId\")) - Find(\"|\", Param(\"recordId\")))",
+    "Right(Param(\"recordId\"), Find(\"|\", Param(\"recordId\")) - 1)"
+  ],
+  answer: [
+    "Left(Param(\"recordId\"), Find(\"|\", Param(\"recordId\")) - 1)",
+    "Right(Param(\"recordId\"), Len(Param(\"recordId\")) - Find(\"|\", Param(\"recordId\")))"
+  ],
+  explanation: "Memory: LEFT = before the pipe. RIGHT = after the pipe."
+},
+
+{
+  question: "You need to implement data storage that queries large amounts of unstructured data stored in Dataverse and reads and updates structured data stored outside Dataverse. Which table types should you use?",
+  options: [
+    "Unstructured data inside Dataverse → Elastic | Structured data outside Dataverse → Virtual",
+    "Unstructured data inside Dataverse → Standard | Structured data outside Dataverse → Virtual",
+    "Unstructured data inside Dataverse → Elastic | Structured data outside Dataverse → Standard",
+    "Unstructured data inside Dataverse → Virtual | Structured data outside Dataverse → Elastic"
+  ],
+  answer: "Unstructured data inside Dataverse → Elastic | Structured data outside Dataverse → Virtual",
+  explanation: "Memory: Elastic = huge data inside Dataverse. Virtual = data stays outside Dataverse."
+},
+
+{
+  question: "Two solutions share components. A developer for Solution A requires a new development environment, and customizations in Solution A must not interfere with Solution B. How should you import the solutions?",
+  options: [
+    "Import SolutionA as managed and SolutionB as unmanaged.",
+    "Import both SolutionA and SolutionB as unmanaged.",
+    "Import SolutionA as unmanaged and SolutionB as managed.",
+    "Import both SolutionA and SolutionB as managed."
+  ],
+  answer: "Import SolutionA as unmanaged and SolutionB as managed.",
+  explanation: "Memory: You edit the solution you're developing (unmanaged). Protect everything else (managed)."
+},
+
+{
+  question: "A consulting company develops reusable Power Platform components. One component is an AppSource control that customers install. Another is a JavaScript web resource that developers reuse in new projects. Which solution type should each component use?",
+  options: [
+    "AppSource control → Managed | JavaScript web resource → Unmanaged",
+    "AppSource control → Unmanaged | JavaScript web resource → Managed",
+    "Both Managed",
+    "Both Unmanaged"
+  ],
+  answer: "AppSource control → Managed | JavaScript web resource → Unmanaged",
+  explanation: "Memory: Ship to customers = Managed. Build with developers = Unmanaged."
+},
 
 ];
 
@@ -814,7 +980,12 @@ const memoryCards = [
   "Package deployment: Create Dynamics 365 Package Project → Add files to PkgFolder → Define ImportConfig.xml → Build package",
   "Hierarchy visualization → One-to-many | One record references one record → One-to-many | Many records reference many records → Many-to-many",
   "Class table ownership → User or Team | Class history → Student = Many-to-one | Relationship behavior → Parental",
-  "Managers view BU records → Role-based security | Restrict field visibility → Field-level security | Share specific records → Record-level security"
+  "Managers view BU records → Role-based security | Restrict field visibility → Field-level security | Share specific records → Record-level security",
+  "Power Fx condition functions → UpdateIf changes matching rows; RemoveIf deletes matching rows",
+"Bad connection credentials → error message; duplicate/similar account → no create",
+"Lookup default missing in target → move reference data with Configuration Migration Tool",
+"Managed solution same property → later layer wins; form additions usually merge",
+"Deleting managed column with dependencies → remove references first, then delete column"
 ];
 
 const MEMORY_CARDS_PER_RUN = memoryCards.length;
