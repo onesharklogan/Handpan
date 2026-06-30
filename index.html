@@ -1,4 +1,4 @@
-<!-- starting on page 12 -->
+<!-- starting on page 21 next -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,879 +113,882 @@
 <script>
 const allQuestions = [
 {
-  question: "A canvas app data source has columns Id, Value1, and Value2. Id is always unique, but Value1 and Value2 may not be. You need to modify Value2 for a single row when you know Id and Value1, and delete all rows with a specified Value1. Which functions should you use?",
+  question: "A company has multiple developers working in isolated development environments. Changes must later be merged into a shared development environment. What should developers export?",
   options: [
-    "Modify knowing Id and Value1 → Update | Delete knowing Value1 → Remove",
-    "Modify knowing Id and Value1 → UpdateIf | Delete knowing Value1 → RemoveIf",
-    "Modify knowing Id and Value1 → RemoveIf | Delete knowing Value1 → UpdateIf",
-    "Modify knowing Id and Value1 → Remove | Delete knowing Value1 → Update"
+    "Copy each development environment daily",
+    "Perform all customizations in the shared environment",
+    "Export each developer's solution as managed",
+    "Export each developer's solution as unmanaged"
   ],
-  answer: "Modify knowing Id and Value1 → UpdateIf | Delete knowing Value1 → RemoveIf",
-  explanation: "Memory: If = condition. UpdateIf changes rows matching a condition. RemoveIf deletes rows matching a condition."
+  answer: "Export each developer's solution as unmanaged",
+  explanation: "Memory: Developers keep editing = Unmanaged. Customers receive = Managed."
 },
 
 {
-  question: "A canvas app uses a connection to create account and contact records. Which statements are true when testing error behavior?",
+  question: "A company wants to automate Power Platform deployments to downstream environments. Developers do not have access to Azure DevOps or third-party deployment tools. What should you recommend?",
   options: [
-    "Invalid connection string or credentials show an error message; similar account still creates; contact always creates.",
-    "Invalid connection string or credentials show an error message; similar account will not be created; contact will not always be created.",
-    "Invalid connection string or credentials do not show an error; similar account will not be created; contact always creates.",
-    "Invalid connection string or credentials show an error message; similar account will be created; contact will not always be created."
+    "Use production environments",
+    "Use Azure DevOps",
+    "Use the maker portal",
+    "Create a configuration migration package"
   ],
-  answer: "Invalid connection string or credentials show an error message; similar account will not be created; contact will not always be created.",
-  explanation: "Memory: Bad connection = error. Duplicate/similar account = no create. Contact is not guaranteed."
+  answer: "Use Azure DevOps",
+  explanation: "Memory: Automated deployments = Azure DevOps."
+},
+{
+  question: "A company has Dataverse environments in North America and Europe. An issue occurs only in the Germany environment. You must debug it while meeting data residency requirements. What should you do?",
+  options: [
+    "Copy the environment",
+    "Create a new developer environment and register the plug-in",
+    "Back up and restore the environment",
+    "Create a new sandbox environment and register the plug-in"
+  ],
+  answer: "Create a new sandbox environment and register the plug-in",
+  explanation: "Memory: Need production-like troubleshooting without touching production → Sandbox."
 },
 
 {
-  question: "A managed solution with a real-time workflow is imported into a test environment. The workflow populates a lookup column with a default value. A tester gets the error: 'Record is not available.' What should you do?",
+  question: "An integration must create a Dataverse row if it doesn't exist or update it if it already exists. Which THREE features can implement this?",
   options: [
-    "Add missing lookup table records to the solution.",
-    "Go to the test environment and manually create missing lookup table records.",
-    "Use the Configuration Migration Tool to extract the lookup table data from development and import it into test.",
-    "Deactivate and reactivate the real-time workflow."
-  ],
-  answer: "Use the Configuration Migration Tool to extract the lookup table data from development and import it into test.",
-  explanation: "Memory: Lookup default points to data, not just schema. Move reference/config data with Configuration Migration Tool."
-},
-
-{
-  question: "You manage two Microsoft Power Platform managed solutions. Solution A changes the Account name column length to 75 and adds a categoryid column to the Account form. Solution B changes the Account name column length to 100 and adds a territoryid column to the Account form. Solution A is imported before Solution B. What is the final state?",
-  options: [
-    "Column length is 75; both columns appear in the Account Information section.",
-    "Column length is 100; both columns appear in the Account Information section.",
-    "Column length is unchanged; only the territoryid column appears in the Account Information section.",
-    "Column length is 100; both columns are added to the Conflicts tab."
-  ],
-  answer: "Column length is 100; both columns appear in the Account Information section.",
-  explanation: "Memory: Managed layer stack. Later solution wins for the same property, but form additions merge."
-},
-
-{
-  question: "Solution A contains a custom text column. Solution B contains a view that references that custom text column. Both managed solutions are installed in the destination environment. You need to delete the custom text column and apply changes in destination. Which order should you use?",
-  options: [
-    "Remove the referenced custom_text column from the Solution B view in source → Export Solution B as managed and import it → Delete the custom_text column in source → Export Solution A as managed and import it.",
-    "Delete the custom_text column in source → Export Solution A as managed and import it → Remove the column from the Solution B view → Export Solution B as managed and import it.",
-    "Export Solution A first → Delete the column in destination → Export Solution B second.",
-    "Delete the column directly in destination → Import Solution A → Import Solution B."
-  ],
-  answer: "Remove the referenced custom_text column from the Solution B view in source → Export Solution B as managed and import it → Delete the custom_text column in source → Export Solution A as managed and import it.",
-  explanation: "Memory: Unhook before delete. First remove dependencies, then delete the thing."
-},
-{
-  question: "You plan to populate records in a Microsoft Dataverse entity containing an option set field. The source system has the option label but not the integer value. You are using a non-.NET programming language. What should you do?",
-  options: [
-    "Use Web API and use a PicklistAttributeMetadata request.",
-    "Use the Organization service and execute a RetrieveOptionSetRequest request.",
-    "Use Web API and use an InsertOptionValue action.",
-    "Use the Organization service and execute a RetrieveAttributeRequest request."
-  ],
-  answer: "Use Web API and use a PicklistAttributeMetadata request.",
-  explanation: "When using a non-.NET language, retrieve option set metadata through the Web API using PicklistAttributeMetadata to obtain the integer values."
-},
-
-{
-  question: "A travel company must track which regions contacts have visited and store the visit date. Which THREE actions should you perform?",
-  options: [
-    "Create an N:N relationship from Contact to Region.",
-    "Create a 1:N relationship from ContactRegion to Region.",
-    "Create an intersect entity named ContactRegion and create 1:N relationships to Contact and Region.",
-    "On the ContactRegion form, add Contact lookup, Region lookup, and Visit Date fields.",
-    "Create a 1:N relationship from Contact to Region.",
-    "Create the Region entity.",
-    "Add a Region sub-grid to the ContactRegion form."
+    "Client-side script",
+    "Cloud flow",
+    "Business rule",
+    "Plug-in",
+    "PCF control"
   ],
   answer: [
-    "Create an intersect entity named ContactRegion and create 1:N relationships to Contact and Region.",
-    "On the ContactRegion form, add Contact lookup, Region lookup, and Visit Date fields.",
-    "Create the Region entity."
+    "Client-side script",
+    "Cloud flow",
+    "Plug-in"
   ],
-  explanation: "Because additional data (Visit Date) must be stored, create an intersect entity instead of a native many-to-many relationship."
+  explanation: "Memory: Anything that can code logic (JS, Flow, Plug-in) can perform an upsert. Business Rules and PCF cannot."
 },
 
 {
-  question: "Solution Checker reports errors for one solution but completes without errors for another solution. What is the cause?",
+  question: "A solution uses Access Team Templates, but users cannot access rows. What should you do?",
   options: [
-    "A canvas app in the first solution has errors.",
-    "The Power Apps checker application user is disabled."
+    "Assign the rows to the team",
+    "Add the users to the Access Team Members subgrid",
+    "Share the affected rows",
+    "Assign a security role to the users"
   ],
-  answer: "A canvas app in the first solution has errors.",
-  explanation: "Solution Checker analyzes all solution components. If one solution contains a faulty canvas app, only that solution reports errors."
+  answer: "Assign a security role to the users",
+  explanation: "Memory: Access Teams share records, but users still need a Security Role."
 },
 
 {
-  question: "Solution Checker flags the following JavaScript: if (accountnumber == 'abc'). Which rule is being violated?",
+  question: "You create a Custom API that will be distributed through AppSource. You need to prevent code generation tools from creating classes and messages for the API. What should you do?",
   options: [
-    "web-avoid-eval",
-    "web-remove-debug-script",
-    "web-avoid-modals",
-    "web-use-strict-mode"
+    "Set Is Private to Yes",
+    "Set Is Function to Yes",
+    "Set Allowed Custom Processing Step Type to None",
+    "Set Allow Customizations to No"
   ],
-  answer: "web-use-strict-mode",
-  explanation: "Using == instead of === violates the strict mode recommendation because it performs type coercion."
+  answer: "Set Is Private to Yes",
+  explanation: "Memory: Private API = hidden from code generation."
 },
 
 {
-  question: "Users report that Dataverse Rollup Fields are not updated immediately after a policy is created. What should you do?",
+  question: "Solution Checker reports: 'Solution Checker fails to export solutions with model-driven app components.' What should you do?",
   options: [
-    "Create a workflow that calculates the rollup values.",
-    "Update the Mass Calculate Rollup Field job.",
-    "Increase the recurring rollup job frequency.",
-    "Create a plug-in that calls CalculateRollupFieldRequest when a policy is created."
+    "Manually export the solution before running Solution Checker",
+    "Assign the Environment Maker security role to the Power Apps Checker application user",
+    "Assign the System Administrator security role to your user",
+    "Disable the Power Apps Checker application user",
+    "Assign the Environment Maker security role to your user ID"
   ],
-  answer: "Create a plug-in that calls CalculateRollupFieldRequest when a policy is created.",
-  explanation: "CalculateRollupFieldRequest forces an immediate recalculation instead of waiting for the scheduled rollup jobs."
+  answer: "Assign the Environment Maker security role to the Power Apps Checker application user",
+  explanation: "Memory: Solution Checker failure → Checker application user needs Environment Maker."
+},
+{
+  question: "A mobile device using a Power Apps Component Framework (PCF) control can lose network connectivity. Which lifecycle method should you use to save the latest values back to Dataverse?",
+  options: [
+    "SaveData",
+    "updateView",
+    "init",
+    "getClient"
+  ],
+  answer: "updateView",
+  explanation: "Memory: PCF data changes = updateView."
 },
 
 {
-  question: "A public website survey must write directly to Dataverse without requiring users to sign in. Which authentication mechanism should you implement?",
+  question: "A production Power Platform plug-in throws errors. You are an Environment Maker and need to investigate without modifying production. What should you do?",
   options: [
-    "ADFS",
-    "Azure AD Conditional Access",
-    "Azure guest account",
-    "Client Secret"
+    "Send a PUT request to enable plug-in tracing",
+    "Send a GET request to retrieve the plugintracelogs records",
+    "Install Plug-in Profiler in production",
+    "Debug directly from Visual Studio"
   ],
-  answer: "Client Secret",
-  explanation: "Server-to-server authentication uses an application registration and client secret rather than user credentials."
+  answer: "Send a GET request to retrieve the plugintracelogs records",
+  explanation: "Memory: Production troubleshooting = read Plugin Trace Logs."
 },
 
 {
-  question: "A managed solution containing JavaScript-enabled forms fails to import. What is the cause?",
+  question: "A managed solution version is currently 10.0.2.1. You need to publish an updated version. Which version should you use?",
   options: [
-    "The web resources were not added to the form before adding the form to the solution.",
-    "The solution should have been exported as unmanaged.",
-    "The web resources were not added to the solution before exporting.",
-    "A copy of the form should have been created before adding it to the solution."
+    "10.0.3.1",
+    "10.0.2.2",
+    "10.1.0.2",
+    "11.0.0"
   ],
-  answer: "The web resources were not added to the solution before exporting.",
-  explanation: "Every dependent web resource must be included in the solution before export."
+  answer: "10.0.2.2",
+  explanation: "Memory: Small update = increment Revision (last number)."
 },
-
 {
-  question: "You need to configure column mappings between parent and child tables. Which TWO actions are valid?",
+  question: "An accounting team must be the only users able to edit the Balance field on Contact records without custom code. What should you do first?",
   options: [
-    "Map the value of a Choices column on the child table to a Choices column on the parent table.",
-    "Map a parent column using values from the child table.",
-    "Map values for the same columns on both the child quick-create form and main form to the parent table.",
-    "Map a single line of text column to a currency column."
+    "Enable field security and give Customer Service read/update permissions.",
+    "Create a custom form and make the field read-only.",
+    "Enable field security and give the Accounting team read/update permissions.",
+    "Create an accounting form and make the field read-only."
+  ],
+  answer: "Enable field security and give the Accounting team read/update permissions.",
+  explanation: "Memory: Protect one field → Field Security, not Forms."
+},
+{
+  question: "A travel company tracks Destinations and wants multiple ratings for each destination. Which THREE actions should you perform?",
+  options: [
+    "Create a 1:N relationship between Contact and Destination.",
+    "Create a mapping for the Contact ↔ Rating relationship.",
+    "Create a 1:1 relationship between Destination and Rating.",
+    "Create a 1:N relationship between Contact and Rating.",
+    "Create a mapping for the Destination ↔ Rating relationship.",
+    "Create a 1:N relationship between Destination and Rating."
   ],
   answer: [
-    "Map the value of a Choices column on the child table to a Choices column on the parent table.",
-    "Map values for the same columns on both the child quick-create form and main form to the parent table."
+    "Create a 1:N relationship between Contact and Rating.",
+    "Create a mapping for the Destination ↔ Rating relationship.",
+    "Create a 1:N relationship between Destination and Rating."
   ],
-  explanation: "Column mappings require compatible data types, and mappings apply to both quick create and main forms."
+  explanation: "Memory: Contact → Rating, Destination → Rating, then map Destination → Rating."
 },
 {
-  question: "You need users to attach PDF files to Doctor records in Dataverse. What should you do?",
+  question: "A bank app blocks the UI while credit checks run for several minutes. Which client API should display the waiting message?",
   options: [
-    "Create a Power Automate flow",
-    "Enable attachments in Table options",
-    "Enable attachments in Column options",
-    "Create a relationship with the Notes table"
+    "Xrm.Navigation.openWebResource(...)",
+    "Xrm.Navigation.openAlertDialog(...)",
+    "Xrm.Utility.openWebResource(...)",
+    "Xrm.Utility.showProgressIndicator(...)"
   ],
-  answer: "Enable attachments in Table options",
-  explanation: "Attachments are enabled at the Dataverse table level."
+  answer: "Xrm.Utility.showProgressIndicator(...)",
+  explanation: "Memory: Long-running operation → ShowProgressIndicator."
 },
 {
-  question: "A plug-in updates the Account Number during an Account Update. Which three Plug-in Registration Tool actions should you perform?",
+  question: "A solution checker cannot export a solution after it was updated. What is the most likely cause?",
   options: [
-    "Register New Assembly",
-    "Register New Step (Update, Account, PreValidation)",
-    "Register New Step (Update, Account, PreOperation)",
-    "Register New Image as PreImage",
-    "Register New Image as PostImage"
+    "The original solution is locked because there is a dependent patch.",
+    "The solution was not exported before Solution Checker.",
+    "The environment is in Administrator mode.",
+    "Solution Checker cannot analyze default solutions."
+  ],
+  answer: "The original solution is locked because there is a dependent patch.",
+  explanation: "Memory: Parent solution + Patch = Parent is locked."
+},
+{
+  question: "When creating an Account using Xrm.WebApi.createRecord(), how do you set an existing Contact as the primary contact? (Choose TWO.)",
+  options: [
+    "primarycontactid: { logicalname:'contact', id:'<GUID>' }",
+    "\"primarycontactid@odata.bind\": \"/contacts(<GUID>)\"",
+    "\"primarycontactid@odata.connect\": \"/contacts(<GUID>)\"",
+    "\"primarycontactid\": \"/contacts(<GUID>)\""
   ],
   answer: [
-    "Register New Assembly",
-    "Register New Step (Update, Account, PreOperation)",
-    "Register New Image as PreImage"
+    "primarycontactid: { logicalname:'contact', id:'<GUID>' }",
+    "\"primarycontactid@odata.bind\": \"/contacts(<GUID>)\""
   ],
-  explanation: "Upload the assembly, register a PreOperation step, then register a PreImage so the plug-in can compare original values."
+  explanation: "Memory: Lookup = object OR @odata.bind."
 },
 {
-  question: "A model-driven app contains parent and child tables. When creating a child record from the parent form, parent data should automatically populate the child record. What should you do?",
+  question: "A canvas app loads multiple collections in OnStart using several ClearCollect() calls. The app starts slowly. What should you do?",
   options: [
-    "Use a Power Automate flow to copy the data",
-    "Map table columns from the parent record to the child record",
-    "Create a business rule to populate the fields",
-    "Use a Quick View form"
+    "Replace every ClearCollect() with Collect()",
+    "Wrap the independent ClearCollect() calls inside Concurrent()",
+    "Wrap each ClearCollect() inside its own Concurrent()",
+    "Replace ClearCollect() with LoadData()"
   ],
-  answer: "Map table columns from the parent record to the child record",
-  explanation: "Column mappings automatically populate child records created from a parent record."
+  answer: "Wrap the independent ClearCollect() calls inside Concurrent()",
+  explanation: "Independent data loads should run in parallel using Concurrent()."
 },
- {
-  question: "You need to configure field security for an Approval field. Which three actions should you perform in sequence?",
+{
+  question: "A nightly Dataverse integration must authenticate using an Azure AD application user. Which action should you perform LAST?",
   options: [
-    "Create a new field security profile",
-    "Enable auditing in the Approval field",
-    "Create an access team template",
-    "Enable change tracking for the Opportunity entity",
-    "Set field permissions (Read, Update, Create) and add the sales manager to the field security profile",
-    "Enable field security in the Approval field",
-    "Grant write privileges through a security role"
+    "Register the application in Azure AD",
+    "Create the application user in Dataverse",
+    "Assign a security role to the application user",
+    "Use the Azure AD Application ID and Client Secret in the application"
+  ],
+  answer: "Use the Azure AD Application ID and Client Secret in the application",
+  explanation: "Register → Create App User → Assign Role → Use Client ID/Secret."
+},
+{
+  question: "A button must create a new Product record using values from the selected item. Which Power Fx function should begin the formula?",
+  options: [
+    "UpdateContext(",
+    "IsMatch(",
+    "LoadData(",
+    "Patch("
+  ],
+  answer: "Patch(",
+  explanation: "Patch creates or updates Dataverse records."
+},
+{
+  question: "A model-driven app must display an image that scales without losing quality. Which web resource type should you use?",
+  options: [
+    "PNG",
+    "ICO",
+    "SVG",
+    "JPG"
+  ],
+  answer: "SVG",
+  explanation: "SVG graphics scale without losing quality."
+},
+{
+  question: "A model-driven app must return language-localized text from a web resource. Which resource type should you use?",
+  options: [
+    "XAP",
+    "XSL",
+    "RESX",
+    "XML"
+  ],
+  answer: "RESX",
+  explanation: "RESX stores localized resource strings."
+},
+{
+  question: "Users report performance issues with synchronous plug-ins. Which TWO tools help determine whether a plug-in is causing the slowdown?",
+  options: [
+    "Tracing",
+    "Data policies",
+    "Solution Checker",
+    "Visual Studio",
+    "Microsoft Dataverse Analytics"
   ],
   answer: [
-    "Enable field security in the Approval field",
-    "Create a new field security profile",
-    "Set field permissions (Read, Update, Create) and add the sales manager to the field security profile"
+    "Tracing",
+    "Microsoft Dataverse Analytics"
   ],
-  explanation: "First enable field security on the field, then create a Field Security Profile, then grant permissions and add users."
-},
- {
-  question: "When configuring relationship behavior, which feature should be used when deleting a primary record must also delete associated records?",
-  options: [
-    "Parental",
-    "Cascade User Owned",
-    "Referential"
-  ],
-  answer: "Parental",
-  explanation: "Parental relationships cascade deletes from the parent to related child records."
+  explanation: "Tracing shows execution details; Dataverse Analytics measures plug-in performance."
 },
 {
-  question: "When configuring relationship behavior, which feature assigns only user-owned child records when the parent record is reassigned?",
+  question: "You need to include solution components for an international deployment. Which THREE items can be moved in a solution?",
   options: [
-    "Parental",
-    "Cascade User Owned",
-    "Referential"
+    "Available UI languages",
+    "Scheduled Power Automate flow",
+    "Custom entity",
+    "Modified standard security role",
+    "Currencies enabled in the environment"
   ],
-  answer: "Cascade User Owned",
-  explanation: "Cascade User Owned affects only records owned by the same user during assignment."
+  answer: [
+    "Scheduled Power Automate flow",
+    "Custom entity",
+    "Modified standard security role"
+  ],
+  explanation: "Flows, entities, and security roles are solution-aware. Environment languages and currencies are not."
 },
 {
-  question: "When configuring relationship behavior, which feature prevents related records from being deleted when the parent record is deleted?",
+  question: "A model-driven app displays an unexpected column value when a new record opens. Which browser event should you debug first?",
   options: [
-    "Parental",
-    "Cascade User Owned",
-    "Referential"
+    "OnLoad",
+    "OnSelection",
+    "OnReadyStateComplete",
+    "OnSave"
   ],
-  answer: "Referential",
-  explanation: "Referential relationships do not cascade deletes."
+  answer: "OnReadyStateComplete",
+  explanation: "Unexpected values after the page finishes loading are commonly investigated with OnReadyStateComplete."
 },
-  {
-    question: "Managers need one screen with Power BI data and the ability to update maintenance history. What should you do?",
-    options: [
-      "Add the maintenance history app to the Field Service Mobile app",
-      "Add the manager Power BI dashboard to the Field Service mobile app",
-      "Create a new maintenance canvas app from within the Power BI dashboard",
-      "Add the maintenance history app to the Power BI dashboard"
-    ],
-    answer: "Add the maintenance history app to the Power BI dashboard",
-    explanation: "Embedding the existing maintenance history app into the Power BI dashboard lets managers view Power BI data and update maintenance history from one screen."
-  },
-  {
-    question: "Staffing company: create the job listings portal. Which feature?",
-    options: [
-      "Custom self-service portal for employers and a custom page for job candidates",
-      "Custom self-service portal for both employers and job candidates",
-      "Portal for job candidates and a custom self-service portal for employers",
-      "Portal from blank for job candidates and employers"
-    ],
-    answer: "Custom self-service portal for both employers and job candidates",
-    explanation: "A custom self-service portal supports both employers and candidates in one portal experience."
-  },
-  {
-    question: "Staffing company: create an app that lists available positions. Which feature?",
-    options: [
-      "Canvas app with push notifications",
-      "Model-driven app with push notifications",
-      "Portal app with push notifications"
-    ],
-    answer: "Model-driven app with push notifications",
-    explanation: "Model-driven apps are best for data-driven apps based on Dataverse records."
-  },
-  {
-    question: "Staffing company: employers seeking temporary employees need an app. Which feature?",
-    options: [
-      "Entity form defined on the job custom entity",
-      "Webform with target set to the job custom entity",
-      "Web page defined on the job custom entity",
-      "Web step with target set to the job custom entity"
-    ],
-    answer: "Webform with target set to the job custom entity",
-    explanation: "A webform supports a guided portal process for entering job information."
-  },
-  {
-    question: "Staffing company: create invitation parameters for job candidates. Which option?",
-    options: [
-      "Configure Assigned to Account only",
-      "Configure Execute Workflow on Redeeming Contact only",
-      "Configure both Assigned to Account and Execute Workflow on Redeeming Contact",
-      "Leave both empty"
-    ],
-    answer: "Configure Execute Workflow on Redeeming Contact only",
-    explanation: "A workflow can run when the invitation is redeemed and process the candidate contact."
-  },
-  {
-    question: "Staffing company: create invitation parameters for approved job candidates. Which option?",
-    options: [
-      "Configure Assigned to Account only",
-      "Configure Execute Workflow on Redeeming Contact only",
-      "Configure both Assigned to Account and Execute Workflow on Redeeming Contact",
-      "Leave both empty"
-    ],
-    answer: "Configure Assigned to Account only",
-    explanation: "Assigned to Account links the redeemed contact to the appropriate account."
-  },
-  {
-    question: "Bakery app: determine which store is closest to the order destination. What should you use?",
-    options: [
-      "Power Automate flow",
-      "Plug-in",
-      "Logic app"
-    ],
-    answer: "Power Automate flow",
-    explanation: "Power Automate can use connectors such as Bing Maps to determine the closest store with minimal custom code."
-  },
-  {
-    question: "Bakery app: estimate pickup prep time and notify the customer while minimizing custom code. What should you use?",
-    options: [
-      "New screen in an existing order canvas app",
-      "New canvas app",
-      "New logic app"
-    ],
-    answer: "New screen in an existing order canvas app",
-    explanation: "Adding a screen to the existing canvas app minimizes custom development and avoids creating a separate app."
-  },
-  {
-    question: "Bakery app: send the newsletter by email to customers. What should you use?",
-    options: [
-      "Power Automate flow triggered from an email button",
-      "Power Automate flow triggered manually",
-      "Power Automate UI flow triggered from an email button"
-    ],
-    answer: "Power Automate flow triggered from an email button",
-    explanation: "A cloud flow triggered from a button is appropriate for sending emails. UI flows are for RPA."
-  },
-  {
-    question: "Custom connector: which files can API developers provide to create the connector? Select two.",
-    options: [
-      "YAML",
-      "WSDL",
-      "OpenAPI definition",
-      "Postman collection"
-    ],
-    answer: [
-      "OpenAPI definition",
-      "Postman collection"
-    ],
-    explanation: "Custom connectors can be created from an OpenAPI definition or imported from a Postman collection."
-  },
-  {
-    question: "You plan to create a canvas app to manage large sets of records. Users will filter and sort the data. Which two data sources should you recommend?",
-    options: [
-      "SQL Server",
-      "Common Data Service",
-      "Azure Data Factory",
-      "Azure Table Storage"
-    ],
-    answer: [
-      "SQL Server",
-      "Common Data Service"
-    ],
-    explanation: "SQL Server and Dataverse/Common Data Service support delegation for filtering and sorting large datasets."
-  },
-  {
-    question: "Dynamics 365 Finance without third-party add-ons: warehouse employees scan barcodes with mobile devices. Which solution?",
-    options: [
-      "Out-of-the-box",
-      "Logic apps",
-      "Power Automate",
-      "Common Data Service"
-    ],
-    answer: "Out-of-the-box",
-    explanation: "Dynamics 365 Finance includes warehouse mobile device barcode scanning capabilities."
-  },
-  {
-    question: "Dynamics 365 Field Service: technician location is communicated by text message. Which solution?",
-    options: [
-      "Common Data Service",
-      "Workflow",
-      "Power Automate"
-    ],
-    answer: "Power Automate",
-    explanation: "Power Automate can be used for Field Service mobile processes, notifications, and messaging scenarios."
-  },
-  {
-    question: "Model-driven app uses Exchange Online to send email. What configuration?",
-    options: [
-      "Server-side synchronization",
-      "Server-based integration",
-      "Dual-write",
-      "System settings"
-    ],
-    answer: "Server-side synchronization",
-    explanation: "Exchange Online email processing uses server-side synchronization."
-  },
-  {
-    question: "Model-driven app uses SharePoint Online for document storage. What configuration?",
-    options: [
-      "Server-side synchronization",
-      "Server-based integration",
-      "Dual-write",
-      "System settings"
-    ],
-    answer: "Server-based integration",
-    explanation: "SharePoint document management integration uses server-based integration."
-  },
-  {
-    question: "Order processing app: complex business logic, external systems, up to six minutes, must complete in one operation. What should you recommend?",
-    options: [
-      "Asynchronous workflow with custom workflow activity",
-      "Real-time workflow with custom action",
-      "Webhook that connects to an Azure Function",
-      "Asynchronous plug-in"
-    ],
-    answer: "Webhook that connects to an Azure Function",
-    explanation: "For long-running processing that may take several minutes and integrates with external systems, a webhook connected to an Azure Function is the best fit from the listed options."
-  },
-  {
-    question: "Non-profit portal: create portal using a portal template. Which module?",
-    options: [
-      "Starter portal",
-      "Community portal",
-      "Customer self-service portal"
-    ],
-    answer: "Customer self-service portal",
-    explanation: "The Customer self-service portal template provides a good base for external users and self-service processes."
-  },
-  {
-    question: "Non-profit portal: manage volunteer registration with multiple related entities. Which module?",
-    options: [
-      "Entity form metadata",
-      "Webform",
-      "Webform step"
-    ],
-    answer: "Webform",
-    explanation: "A webform supports multi-step portal processes and can work with multiple related entities."
-  },
-  {
-    question: "Power Apps portal: which entities can include Liquid code? Select three.",
-    options: [
-      "Content snippet",
-      "Web page",
-      "Web template",
-      "Page template",
-      "Portal settings"
-    ],
-    answer: [
-      "Content snippet",
-      "Web page",
-      "Web template"
-    ],
-    explanation: "Liquid can be used in portal web pages, web templates, and content snippets."
-  },
-  {
-    question: "A company is migrating from an on-premises Dynamics 365 installation to a Power Platform solution. You are creating plug-ins for the new solution. Which isolation mode should you use?",
-    options: [
-      "None",
-      "Global Assembly Cache (GAC)",
-      "Sandbox",
-      "Disk"
-    ],
-    answer: "Sandbox",
-    explanation: "Power Platform and Dataverse support plug-ins running in Sandbox isolation mode. Sandbox provides security and isolation for cloud deployments."
-  },
-  {
-    question: "An organization uses a public-facing Power Apps portal. You need to change the layout of a specific web page. What are two possible ways to achieve the goal?",
-    options: [
-      "Select the Portal Management app and then select Edit.",
-      "Select the Portal Management app and then select Play.",
-      "Select the portal app and then select Manage.",
-      "Select the portal app and then select Edit."
-    ],
-    answer: [
-      "Select the Portal Management app and then select Play.",
-      "Select the portal app and then select Edit."
-    ],
-    explanation: "You can modify portal page layout either through portal management metadata or by editing the portal app directly."
-  },
-  {
-    question: "You are building a custom Azure application to process resumes for the HR department. The application parses resumes and must save contacts and skills into Dataverse. Which mechanism should you use?",
-    options: [
-      "Power Automate",
-      "Common Data Service plug-in",
-      "Web API",
-      "Custom workflow activity"
-    ],
-    answer: "Web API",
-    explanation: "External applications such as Azure services should use the Dataverse Web API to create and update records programmatically."
-  },
-  {
-  question: "A Dataverse plug-in manages the Update message of an entity. The plug-in must access record column values before the operation starts and compare them to post-update values. What should you do?",
+{
+  question: "A model-driven app throws an error when the user saves a record. Which browser event should you debug?",
   options: [
-    "Add the code to the plug-in to read the record from the InputParameters collection.",
-    "Register a pre-image by using the Plug-in Registration Tool. Add the code to the plug-in to read the image from the PreEntityImages collection.",
-    "Register a post-image by using the Plug-in Registration Tool. Add the code to the plug-in to read the image from the PostEntityImages collection.",
-    "Add the code to the plug-in to query the data from Dataverse by using the API call based on the record ID."
+    "PostSave",
+    "OnReadyStateComplete",
+    "OnSave",
+    "OnLoad"
   ],
-  answer: "Register a pre-image by using the Plug-in Registration Tool. Add the code to the plug-in to read the image from the PreEntityImages collection.",
-  explanation: "A pre-image captures the row values before the update operation. Use PreEntityImages when a plug-in needs to compare old values to the updated values."
+  answer: "OnSave",
+  explanation: "Save errors occur during the OnSave event."
+},
+{
+  question: "An organization restricts Customer Service users from editing the Balance field on Contact records. The Accounting team must remain the only group that can edit it. What should you do first?",
+  options: [
+    "Enable field security for the Balance field and grant the Customer Service team read permissions.",
+    "Create a Customer Service form and make the Balance field read-only.",
+    "Enable field security for the Balance field and grant the Customer Service team read/update permissions.",
+    "Create an Accounting form and business rule."
+  ],
+  answer: "Enable field security for the Balance field and grant the Customer Service team read permissions.",
+  explanation: "Field Security Profiles control who can edit individual columns. Give Customer Service read-only access."
 },
 
 {
-  question: "A company designs data integration with an external system by using virtual tables. Solution: Implement an OData v4 provider as the data source. Does the solution meet the goal?",
+  question: "A Dataverse plug-in performs calculations that often run longer than five minutes and times out. What should you recommend instead?",
+  options: [
+    "Azure Event Hub",
+    "Azure Data Factory",
+    "Azure Functions",
+    "Azure Databricks"
+  ],
+  answer: "Azure Functions",
+  explanation: "Long-running business logic should be offloaded to Azure Functions instead of synchronous plug-ins."
+},
+
+{
+  question: "A model-driven app has an alternate key on Order ID and Order Date. EntityKeyIndexStatus returns Failed after creating the key. What should you do first?",
+  options: [
+    "Use the ReactivateEntityKey action.",
+    "Publish customizations.",
+    "Use DeleteEntityKeyRequest.",
+    "Delete duplicate combinations of Order ID and Order Date."
+  ],
+  answer: "Delete duplicate combinations of Order ID and Order Date.",
+  explanation: "Alternate keys require unique values. Duplicate data causes index creation to fail."
+},
+
+{
+  question: "A canvas app loads several collections during OnStart and starts slowly. What should you do?",
+  options: [
+    "Replace every ClearCollect() with Collect().",
+    "Wrap the independent ClearCollect() calls inside Concurrent().",
+    "Wrap each ClearCollect() in its own Concurrent().",
+    "Replace ClearCollect() with LoadData()."
+  ],
+  answer: "Wrap the independent ClearCollect() calls inside Concurrent().",
+  explanation: "Concurrent() loads independent data sources in parallel for faster startup."
+},
+
+{
+  question: "A button creates a new Product record by copying values from the selected product. Which Power Fx function should begin the formula?",
+  options: [
+    "UpdateContext(",
+    "IsMatch(",
+    "LoadData(",
+    "Patch("
+  ],
+  answer: "Patch(",
+  explanation: "Patch creates or updates Dataverse records."
+},
+
+{
+  question: "A model-driven app must display an image that can be resized without losing quality. Which web resource type should you use?",
+  options: [
+    "PNG",
+    "ICO",
+    "SVG",
+    "JPG"
+  ],
+  answer: "SVG",
+  explanation: "SVG images scale without losing quality."
+},
+
+{
+  question: "A model-driven app must return language-localized text by using a web resource. Which resource type should you use?",
+  options: [
+    "XAP",
+    "XSL",
+    "RESX",
+    "XML"
+  ],
+  answer: "RESX",
+  explanation: "RESX files store localized strings."
+},
+
+{
+  question: "Users report poor performance caused by synchronous plug-ins. Which TWO tools help identify whether plug-ins are responsible?",
+  options: [
+    "Tracing",
+    "Data Policies",
+    "Solution Checker",
+    "Visual Studio",
+    "Microsoft Dataverse Analytics"
+  ],
+  answer: [
+    "Tracing",
+    "Microsoft Dataverse Analytics"
+  ],
+  explanation: "Tracing captures execution details and Dataverse Analytics measures plug-in performance."
+},
+
+{
+  question: "An international solution must include components that move with the solution. Which THREE should you include?",
+  options: [
+    "Available UI languages",
+    "Scheduled Power Automate flow",
+    "Custom entity",
+    "Modified standard security role",
+    "Currencies enabled in the environment"
+  ],
+  answer: [
+    "Scheduled Power Automate flow",
+    "Custom entity",
+    "Modified standard security role"
+  ],
+  explanation: "Flows, custom entities, and modified security roles are solution-aware."
+},
+
+{
+  question: "A new record displays an unexpected value immediately after the page finishes loading. Which browser event should you debug?",
+  options: [
+    "OnLoad",
+    "OnSelection",
+    "OnReadyStateComplete",
+    "OnSave"
+  ],
+  answer: "OnReadyStateComplete",
+  explanation: "Unexpected values after loading are typically investigated with OnReadyStateComplete."
+},
+
+{
+  question: "A model-driven app throws an error when users save a record. Which browser event should you debug?",
+  options: [
+    "PostSave",
+    "OnReadyStateComplete",
+    "OnSave",
+    "OnLoad"
+  ],
+  answer: "OnSave",
+  explanation: "Save-related errors occur during the OnSave event."
+},
+
+{
+  question: "When using Xrm.WebApi.createRecord(), which TWO methods correctly set an existing Contact as the Account's Primary Contact?",
+  options: [
+    "primarycontactid: { logicalname:'contact', id:'<GUID>' }",
+    "\"primarycontactid@odata.bind\":\"/contacts(<GUID>)\"",
+    "\"primarycontactid@odata.connect\":\"/contacts(<GUID>)\"",
+    "\"primarycontactid\":\"/contacts(<GUID>)\""
+  ],
+  answer: [
+    "primarycontactid: { logicalname:'contact', id:'<GUID>' }",
+    "\"primarycontactid@odata.bind\":\"/contacts(<GUID>)\""
+  ],
+  explanation: "Lookup columns can be assigned using an entity reference or @odata.bind."
+},
+{
+  question: "A process must automatically create a Contact whenever an Account is created from either the Dataverse UI or an Azure Function. Does using a cloud flow triggered on Account creation meet the requirement?",
   options: [
     "Yes",
     "No"
   ],
   answer: "Yes",
-  explanation: "Virtual tables can use an OData v4 data provider to expose external system data in Dataverse."
+  explanation: "Cloud flows trigger regardless of whether the Account was created through the UI or an external integration."
 },
 
 {
-  question: "A company designs data integration with an external system by using virtual tables. Solution: Assign record ownership to individual users. Does the solution meet the goal?",
+  question: "JavaScript on a model-driven app retrieves an Account during OnLoad by using Xrm.WebApi.retrieveRecord(). Users report the form loads slowly. What should you do?",
   options: [
-    "Yes",
-    "No"
+    "Use a synchronous XMLHttpRequest.",
+    "Move the visibility code into the success callback.",
+    "Enable the Async OnLoad app setting.",
+    "Use $select to return only the required column."
   ],
-  answer: "No",
-  explanation: "Virtual tables do not use normal Dataverse ownership the same way standard Dataverse tables do. Assigning ownership to individual users does not implement virtual tables."
+  answer: "Enable the Async OnLoad app setting.",
+  explanation: "Async OnLoad prevents record retrieval from blocking form loading."
 },
 
 {
-  question: "A company designs data integration with an external system by using virtual tables. Solution: Use a table that has a GUID as its primary key. Does the solution meet the goal?",
+  question: "A Dataverse model-driven app integrates with an external system. Business logic should execute when a record is created without slowing down users. What should you use?",
   options: [
-    "Yes",
-    "No"
+    "Synchronous plug-in registered in the PreOperation stage",
+    "Synchronous workflow",
+    "Asynchronous plug-in registered in the PostOperation stage"
   ],
-  answer: "Yes",
-  explanation: "Dataverse rows use GUIDs as primary keys. For virtual tables, the external data source must expose a unique identifier that can map correctly to Dataverse."
+  answer: "Asynchronous plug-in registered in the PostOperation stage",
+  explanation: "Long-running integrations belong in asynchronous PostOperation plug-ins."
 },
 {
-  question: "A company designs data integration with an external system by using virtual tables. Solution: Create a calculated column on the virtual table. Does the solution meet the goal?",
+  question: "A model-driven app displays a message beneath a field that says the requested grant amount exceeds the maximum allowed. Which Power Platform capability displays this message?",
   options: [
-    "Yes",
-    "No"
+    "Business rule",
+    "Logic app",
+    "Flow",
+    "Plug-in"
   ],
-  answer: "No",
-  explanation: "Virtual tables do not support calculated columns because the data remains in the external data source rather than Dataverse."
-},
-
-{
-  question: "A company designs a Microsoft Dataverse Custom API to encapsulate business logic. The business logic must not allow customization or modification. Which parameter value should you set?",
-  options: [
-    "Execute Privilege Name to prv_SdkMessageProcessingStep",
-    "Enabled for Workflow to No",
-    "Binding Type to Entity",
-    "Custom Processing Step to None"
-  ],
-  answer: "Custom Processing Step to None",
-  explanation: "Setting Custom Processing Step to None prevents other plug-ins or processing steps from extending or modifying the Custom API behavior."
+  answer: "Business rule",
+  explanation: "Field recommendations and inline messages on forms are created with Business Rules."
 },
 
 {
-  question: "A model-driven app form loads slowly. Which three control types should you evaluate to improve loading performance?",
+  question: "The inline validation message shown by a Business Rule is outdated. What should you update?",
   options: [
-    "Timeline",
-    "Quick view form",
-    "iFrame",
-    "Lookup"
+    "Update the field calculation",
+    "Update the rollup field",
+    "Update the automated flow",
+    "Update the business rule"
+  ],
+  answer: "Update the business rule",
+  explanation: "Inline recommendations and validation messages come from the Business Rule itself."
+},
+
+{
+  question: "A company has two business units (WH1 and WH2). Inventory updates should automatically process only orders within each business unit while minimizing administration. Which Power Automate solution should you recommend?",
+  options: [
+    "Two automated flows scoped to Business Unit with Create/Update/Delete triggers on Orders.",
+    "Two automated flows scoped to Organization with filters for WH1 and WH2.",
+    "One scheduled flow querying both business units.",
+    "Two scheduled flows, one per business unit."
+  ],
+  answer: "Two automated flows scoped to Business Unit with Create/Update/Delete triggers on Orders.",
+  explanation: "Business Unit scope naturally separates processing with the least administration."
+},
+
+{
+  question: "In Power Automate, what does the expression outputs('Get_Item').statusCode return?",
+  options: [
+    "The status code at runtime.",
+    "The output object containing the status code.",
+    "The entire Get_Item action.",
+    "The action inputs."
+  ],
+  answer: "The status code at runtime.",
+  explanation: "outputs(Action).statusCode returns only the HTTP/status result."
+},
+
+{
+  question: "In Power Automate, what does result('MyScope') return?",
+  options: [
+    "All action items inside MyScope",
+    "All variables from MyScope",
+    "The results from all actions inside MyScope",
+    "The final output only"
+  ],
+  answer: "The results from all actions inside MyScope",
+  explanation: "result() returns an array of execution results for every action inside a Scope."
+},
+
+{
+  question: "A flow should trigger approval only when the TOTAL discount exceeds 30%. Which Dataverse column should be the filtering attribute?",
+  options: [
+    "store_groupdiscount",
+    "store_personaldiscount",
+    "store_totaldiscount"
+  ],
+  answer: "store_totaldiscount",
+  explanation: "Always trigger on the field whose change actually determines the business event."
+},
+
+{
+  question: "Complex business logic must access both the previous and new values of a Dataverse record during an update. Which implementation should you use?",
+  options: [
+    "Business Rule",
+    "JavaScript",
+    "Power Automate Flow",
+    "Plug-in"
+  ],
+  answer: "Plug-in",
+  explanation: "Plug-ins can access Pre and Post Entity Images."
+},
+
+{
+  question: "Business logic needs to run automatically on a schedule. Which implementation should you use?",
+  options: [
+    "Business Rule",
+    "JavaScript",
+    "Power Automate Flow",
+    "Plug-in"
+  ],
+  answer: "Power Automate Flow",
+  explanation: "Scheduled triggers are a native Power Automate capability."
+},
+
+{
+  question: "A Power Automate flow uses a custom connector to retrieve data. Other users must run the flow. Which TWO actions are required?",
+  options: [
+    "Share a view with users.",
+    "Share the custom connector with users.",
+    "Share the flow with users.",
+    "Share the environment."
   ],
   answer: [
-    "Quick view form",
-    "iFrame",
-    "Lookup"
+    "Share the custom connector with users.",
+    "Share the flow with users."
   ],
-  explanation: "Quick View Forms, iFrames, and Lookups can significantly impact form load performance and should be reviewed when optimizing a model-driven form."
+  explanation: "Users need access to both the Flow and its Custom Connector."
 },
+
 {
-  question: "You are creating a FetchXML query. The query must return data from a table and return filtered data from a related table. Which two FetchXML elements should you use?",
+  question: "A business rule should run whenever the main form is saved. What scope should you choose?",
   options: [
-    "attribute",
-    "link-entity",
-    "alias",
-    "condition"
+    "One specific form",
+    "All forms",
+    "ModifiedOn field",
+    "Entity"
+  ],
+  answer: "Entity",
+  explanation: "Entity scope executes on save regardless of the form used."
+},
+
+{
+  question: "A notification email must be sent automatically when a business process completes. What should you create?",
+  options: [
+    "Workflow",
+    "Action step",
+    "Data step"
+  ],
+  answer: "Workflow",
+  explanation: "Classic workflows are designed to automate actions like sending email."
+},
+
+{
+  question: "A Power Virtual Agents chatbot cannot see a Power Automate flow created in the default environment. Which TWO actions fix the problem?",
+  options: [
+    "Add the flow to a solution in Environment1.",
+    "Send a copy of the flow.",
+    "Add the flow to a solution in the default environment.",
+    "Export the solution from the default environment and import it into Environment1.",
+    "Share the flow."
   ],
   answer: [
-    "link-entity",
-    "condition"
+    "Add the flow to a solution in the default environment.",
+    "Export the solution from the default environment and import it into Environment1."
   ],
-  explanation: "Use <link-entity> to join a related table and <condition> to filter the returned records."
+  explanation: "Only solution-aware flows can move between environments."
 },
 
 {
-  question: "A model-driven app has a top-level business unit with child business units BusA, BusB, and BusC. BusA users have security roles from BusB and BusC and can view records in those business units. All privileges are set to the Business Unit level. Which two actions should you perform?",
+  question: "A Business Process Flow contains six custom entities with four stages each. One stage has 15 steps. What is wrong with the design?",
   options: [
-    "Turn off the feature that controls record ownership across business units.",
-    "Create a security role for BusA users in the parent business unit with privileges set to Business Unit level.",
-    "Move BusA users to the parent business unit and assign security roles with Parent: Child Business Unit privileges.",
-    "Ensure security role privileges are set to User level."
+    "The maximum number of custom entities has been exceeded.",
+    "The maximum number of steps per stage has been exceeded.",
+    "The maximum number of stages per entity has been exceeded.",
+    "The minimum number of stages per entity has not been met.",
+    "The minimum number of steps per stage has not been met."
+  ],
+  answer: "The maximum number of custom entities has been exceeded.",
+  explanation: "Business Process Flows support a maximum of five entities."
+},
+{
+  question: "You deployed a Business Rule in a managed solution to production. You now need to REMOVE the Business Rule from production. What sequence should you perform?",
+  type: "dragdrop",
+  items: [
+    "In the development environment, navigate to Solutions.",
+    "Create a new managed solution in the production environment.",
+    "Export the solution as managed and import it in the production environment.",
+    "In the production environment, add a new business rule.",
+    "Select the solution that has BusinessRule1 and deactivate the rule.",
+    "Select the solution that has BusinessRule1, navigate to the appropriate entity, and delete the rule."
+  ],
+  correctOrder: [
+    "In the development environment, navigate to Solutions.",
+    "Select the solution that has BusinessRule1, navigate to the appropriate entity, and delete the rule.",
+    "Export the solution as managed and import it in the production environment."
+  ],
+  explanation: "To remove managed components, delete them in Dev, then deploy the managed upgrade to Production."
+},
+
+{
+  question: "A Canvas app embedded in Microsoft Teams runs slowly. What should you change?",
+  options: [
+    "Use a Teams integration object",
+    "Change settings in app to preload app"
+  ],
+  answer: "Change settings in app to preload app",
+  explanation: "Preloading improves Teams startup performance."
+},
+
+{
+  question: "Users cannot add your personal Teams app. What should an administrator change?",
+  options: [
+    "Download the custom app",
+    "Change permission for the custom app in Teams",
+    "Publish the custom app",
+    "Change custom app setup policy in Teams"
+  ],
+  answer: "Change permission for the custom app in Teams",
+  explanation: "Teams app permission policies determine whether users may install custom apps."
+},
+
+{
+  question: "You need to add a custom slider control to a Business Process Flow step. What is the correct order?",
+  type: "dragdrop",
+  items: [
+    "Import customizations into the Microsoft Dataverse environment.",
+    "Modify columns in the default solution.",
+    "Create a Power Automate flow to activate the custom controls.",
+    "Generate and export the business process flow form.",
+    "Configure custom controls on a related entity form.",
+    "Copy custom control configurations to the FormXML for the business process flow."
+  ],
+  correctOrder: [
+    "Configure custom controls on a related entity form.",
+    "Generate and export the business process flow form.",
+    "Copy custom control configurations to the FormXML for the business process flow.",
+    "Import customizations into the Microsoft Dataverse environment."
+  ],
+  explanation: "Configure → Export → Copy FormXML → Import."
+},
+
+{
+  question: "Claim applications must all follow the same approval process. Which feature should you use?",
+  options: [
+    "Workflow",
+    "Business process flow",
+    "Plug-ins",
+    "Custom workflow"
+  ],
+  answer: "Business process flow",
+  explanation: "Business Process Flows enforce a common guided business process."
+},
+
+{
+  question: "Claim applications must be routed to approvers at each stage. Which feature should you use?",
+  options: [
+    "Power Automate flow",
+    "Business process flow",
+    "Actions"
+  ],
+  answer: "Power Automate flow",
+  explanation: "Routing notifications and approvals are handled by Power Automate."
+},
+
+{
+  question: "Fields should automatically show or hide based on values. Which feature should you use?",
+  options: [
+    "Business rules",
+    "JavaScript"
+  ],
+  answer: "Business rules",
+  explanation: "Business Rules provide no-code field visibility logic."
+},
+
+{
+  question: "Complete the Power Automate expression: if( ______ (outputs('UserInput')?['body/Type'],'High'),'User1','User2')",
+  options: [
+    "equals",
+    "greaterOrEquals",
+    "empty",
+    "item"
+  ],
+  answer: "equals",
+  explanation: "equals() compares the value against 'High'."
+},
+
+{
+  question: "A Business Rule on a Dataverse table is scoped to All Forms. A Power Apps Portal using the same table must enforce the same logic. Which TWO actions solve this?",
+  options: [
+    "Deactivate the Business Rule, change scope to Table, then reactivate.",
+    "Replace with a Power Automate flow.",
+    "Extend webFormClientValidate JavaScript.",
+    "Replace with JavaScript OnSave."
   ],
   answer: [
-    "Turn off the feature that controls record ownership across business units.",
-    "Create a security role for BusA users in the parent business unit with privileges set to Business Unit level."
+    "Deactivate the Business Rule, change scope to Table, then reactivate.",
+    "Extend webFormClientValidate JavaScript."
   ],
-  explanation: "Disabling cross-business-unit ownership and using a parent business unit security role with Business Unit privileges limits users to records in their own business unit."
+  explanation: "Portal validation requires client-side JavaScript, while Dataverse logic should be Entity/Table scoped."
 },
 
 {
-  question: "A canvas app uses a local collection named collAccounts to display Account data. Users report missing Account rows after deployment. How should you modify the Power Fx formula?",
+  question: "You need a Secret environment variable to store an API key. What must exist first?",
   options: [
-    "Sort(Accounts, 'Account Name', SortOrder.Descending)",
-    "Sort(collAccounts, 'Account Name', SortOrder.Descending)",
-    "Filter(Sort(Accounts, 'Account Name', SortOrder.Descending), IsBlank('Account Name') = false)",
-    "collAccounts"
+    "Application user",
+    "Certificate",
+    "Azure Key Vault",
+    "Client secret"
   ],
-  answer: "Filter(Sort(Accounts, 'Account Name', SortOrder.Descending), IsBlank('Account Name') = false)",
-  explanation: "Query the Dataverse Accounts table directly instead of the cached collection so the gallery always displays the latest records while filtering out blank account names."
-},
-{
-  question: "You are designing Dataverse tables for an IoT solution. Sensor IoT data is high-volume telemetry, while sensor device configuration is relatively static. Which Dataverse table type should you use for each?",
-  options: [
-    "Sensor IoT data → Standard | Sensor device configuration → Standard",
-    "Sensor IoT data → Elastic | Sensor device configuration → Standard",
-    "Sensor IoT data → Virtual | Sensor device configuration → Standard",
-    "Sensor IoT data → Elastic | Sensor device configuration → Virtual"
-  ],
-  answer: "Sensor IoT data → Elastic | Sensor device configuration → Standard",
-  explanation: "Elastic tables are designed for very large volumes of high-throughput data such as IoT telemetry, logs, and events. Standard tables provide full Dataverse capabilities, including relationships, business rules, auditing, and transactions, making them the best choice for business data such as sensor configuration. Virtual tables are different because they don't store data in Dataverse at all. Instead, they expose data that remains in an external system."
-},
-{
-  question: "A university uses Dynamics 365 Sales. Departments should only access their own Opportunity records, but employees from multiple departments sometimes need to collaborate. Solution: Use position hierarchy security and define the departments as positions. Does the solution meet the goal?",
-  options: [
-    "Yes",
-    "No"
-  ],
-  answer: "No",
-  explanation: "Position hierarchy security is based on an organization's reporting hierarchy, not departments. Sharing, access teams, or manager hierarchy are more appropriate for cross-department collaboration."
+  answer: "Azure Key Vault",
+  explanation: "Secret environment variables reference Azure Key Vault."
 },
 
 {
-  question: "A financial institution needs the Account Balance field to be visible only to specific users. Which three actions should you perform?",
+  question: "A Microsoft Flow must run once every day. Which TWO schedules work?",
   options: [
-    "Set the field to Read-Only and publish the entity.",
-    "Set the field permission Allow Read to Yes and add the users to the members section.",
-    "Create a security role and add the specific users to the role.",
-    "Enable field security and publish the entity.",
-    "Create a field security profile."
+    "Frequency = Daily, Interval = 1",
+    "Frequency = Daily, Interval = 24",
+    "Frequency = Hourly, Interval = 1",
+    "Frequency = Hourly, Interval = 24"
   ],
   answer: [
-    "Set the field permission Allow Read to Yes and add the users to the members section.",
-    "Enable field security and publish the entity.",
-    "Create a field security profile."
+    "Frequency = Daily, Interval = 1",
+    "Frequency = Hourly, Interval = 24"
   ],
-  explanation: "Field-level security requires enabling field security, creating a Field Security Profile, and granting permissions to members of that profile."
-},
-
-
-
-{
-  question: "You need an alternate key that references the Name and Email columns to uniquely identify Account records. What should you do?",
-  options: [
-    "Add a Power Apps command function.",
-    "Use Power Fx.",
-    "Add columns to the Account table.",
-    "Create a key in the Account table."
-  ],
-  answer: "Create a key in the Account table.",
-  explanation: "Alternate keys are created using Keys on the Dataverse table."
+  explanation: "Both schedules execute once every 24 hours."
 },
 
 {
-  question: "A sensitive column should only be readable by Group1 users while Group2 must not see it. What should you do?",
+  question: "Users can view a Business Process Flow but it never appears when creating Contact records. What should you do?",
   options: [
-    "Create a security role for Group1.",
-    "Create separate forms.",
-    "Use JavaScript to hide the field.",
-    "Create a field-level security profile for Group1."
+    "Grant Run Flows privilege",
+    "Add the BPF to the app",
+    "Grant Organization Read on Process",
+    "Associate the Business Process Flow with user security roles"
   ],
-  answer: "Create a field-level security profile for Group1.",
-  explanation: "Field-level security controls access to individual columns regardless of the form."
+  answer: "Associate the Business Process Flow with user security roles",
+  explanation: "A Business Process Flow must be enabled for the users' security roles."
 },
 
 {
-  question: "You are designing a relationship in Dataverse. You need assignment actions to cascade only to active related records. Which settings should you choose?",
+  question: "Rollup fields must recalculate immediately whenever a policy record is created. What should you do?",
   options: [
-    "Referential + Cascade All",
-    "Parental + Cascade User-Owned",
-    "Configurable Cascading + Cascade Active",
-    "Referential, Restrict Delete + Cascade None"
+    "Use a workflow to calculate values.",
+    "Use calculated fields.",
+    "Increase the rollup job frequency.",
+    "Create a plug-in that updates the values immediately."
   ],
-  answer: "Configurable Cascading + Cascade Active",
-  explanation: "Configurable Cascading lets you specify the behavior for each action independently. Selecting Cascade Active applies the action only to active related records."
+  answer: "Create a plug-in that updates the values immediately.",
+  explanation: "Rollup jobs aren't immediate. A plug-in provides real-time updates."
 },
-
-
-{
-  question: "You need an alternate key that references the Name and Email columns to uniquely identify Account records. What should you do?",
-  options: [
-    "Add a Power Apps command function.",
-    "Use Power Fx.",
-    "Add columns to the Account table.",
-    "Create a key in the Account table."
-  ],
-  answer: "Create a key in the Account table.",
-  explanation: "Alternate keys are created using Keys on the Dataverse table."
-},
-
-{
-  question: "A sensitive column should only be readable by Group1 users while Group2 must not see it. What should you do?",
-  options: [
-    "Create a security role for Group1.",
-    "Create separate forms.",
-    "Use JavaScript to hide the field.",
-    "Create a field-level security profile for Group1."
-  ],
-  answer: "Create a field-level security profile for Group1.",
-  explanation: "Field-level security controls access to individual columns regardless of the form."
-},
-{
-  question: "A managed solution is imported into production with Auditing enabled on the Account table. After import, Auditing is disabled because another managed solution sits on top of it. What is the correct order to permanently enable Auditing?",
-  options: [
-    "Create a blank solution and move Account customizations into it → Remove Account from the original solution → Delete the old solution → Add Account back to the original solution → Export original solution as managed and Upgrade.",
-    "Delete the solution from development and production.",
-    "Remove the Account table from the original solution → Export and import using Upgrade → Delete the old solution → Add the Account table and all customizations back to the original solution → Export original solution and import using Upgrade.",
-    "Create a blank solution → Add Account back to the original solution → Delete the old solution → Upgrade."
-  ],
-  answer: "Remove the Account table from the original solution → Export and import using Upgrade → Delete the old solution → Add the Account table and all customizations back to the original solution → Export original solution and import using Upgrade.",
-  explanation: "Memory: Remove → Upgrade → Delete old layer → Add back → Upgrade again. You must remove the old managed layer before the new setting can win."
-},
-{
-  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Add the custom connector to a managed solution, export the managed solution, and import it into production. Does the solution meet the goal?",
-  options: [
-    "Yes",
-    "No"
-  ],
-  answer: "No",
-  explanation: "Memory: Single-tenant connector ≠ portable. Simply moving it in a managed solution doesn't recreate the Entra app registration and authentication."
-},
-{
-  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Publish the custom connector to AppSource. Does the solution meet the goal?",
-  options: [
-    "Yes",
-    "No"
-  ],
-  answer: "No",
-  explanation: "Memory: AppSource is for distribution to many organizations, not moving a private single-tenant connector."
-},
-{
-  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Publish the custom connector to AppSource. Does the solution meet the goal?",
-  options: [
-    "Yes",
-    "No"
-  ],
-  answer: "No",
-  explanation: "Memory: AppSource is for distribution to many organizations, not moving a private single-tenant connector."
-},
-{
-  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Use the maker portal to export the custom connector, then use the maker portal to import it into the production environment. Does the solution meet the goal?",
-  options: [
-    "Yes",
-    "No"
-  ],
-  answer: "Yes",
-  explanation: "Memory: Custom connector = Maker Portal export/import. This is the supported way to move connectors between environments."
-},
-
-{
-  question: "A custom connector for a Microsoft Entra ID-protected Azure Function was created as a single-tenant app. It must be deployed to production and remain accessible only to users in the tenant. Solution: Use Postman to export the custom connector, then use Postman to import it into the production environment. Does the solution meet the goal?",
-  options: [
-    "Yes",
-    "No"
-  ],
-  answer: "No",
-  explanation: "Memory: Postman creates connectors, not deploys them. Use the Maker Portal for environment migration."
-},
-
-{
-  question: "A model-driven app custom page receives two parameters separated by a pipe (|) character in a single string. Which TWO Power Fx formulas should you use to extract the values?",
-  options: [
-    "Left(Param(\"recordId\"), Find(\"|\", Param(\"recordId\")) - 1)",
-    "Left(Param(\"recordId\"), Len(Param(\"recordId\")) - Find(\"|\", Param(\"recordId\")))",
-    "Right(Param(\"recordId\"), Len(Param(\"recordId\")) - Find(\"|\", Param(\"recordId\")))",
-    "Right(Param(\"recordId\"), Find(\"|\", Param(\"recordId\")) - 1)"
-  ],
-  answer: [
-    "Left(Param(\"recordId\"), Find(\"|\", Param(\"recordId\")) - 1)",
-    "Right(Param(\"recordId\"), Len(Param(\"recordId\")) - Find(\"|\", Param(\"recordId\")))"
-  ],
-  explanation: "Memory: LEFT = before the pipe. RIGHT = after the pipe."
-},
-
-{
-  question: "You need to implement data storage that queries large amounts of unstructured data stored in Dataverse and reads and updates structured data stored outside Dataverse. Which table types should you use?",
-  options: [
-    "Unstructured data inside Dataverse → Elastic | Structured data outside Dataverse → Virtual",
-    "Unstructured data inside Dataverse → Standard | Structured data outside Dataverse → Virtual",
-    "Unstructured data inside Dataverse → Elastic | Structured data outside Dataverse → Standard",
-    "Unstructured data inside Dataverse → Virtual | Structured data outside Dataverse → Elastic"
-  ],
-  answer: "Unstructured data inside Dataverse → Elastic | Structured data outside Dataverse → Virtual",
-  explanation: "Memory: Elastic = huge data inside Dataverse. Virtual = data stays outside Dataverse."
-},
-
-{
-  question: "Two solutions share components. A developer for Solution A requires a new development environment, and customizations in Solution A must not interfere with Solution B. How should you import the solutions?",
-  options: [
-    "Import SolutionA as managed and SolutionB as unmanaged.",
-    "Import both SolutionA and SolutionB as unmanaged.",
-    "Import SolutionA as unmanaged and SolutionB as managed.",
-    "Import both SolutionA and SolutionB as managed."
-  ],
-  answer: "Import SolutionA as unmanaged and SolutionB as managed.",
-  explanation: "Memory: You edit the solution you're developing (unmanaged). Protect everything else (managed)."
-},
-
-{
-  question: "A consulting company develops reusable Power Platform components. One component is an AppSource control that customers install. Another is a JavaScript web resource that developers reuse in new projects. Which solution type should each component use?",
-  options: [
-    "AppSource control → Managed | JavaScript web resource → Unmanaged",
-    "AppSource control → Unmanaged | JavaScript web resource → Managed",
-    "Both Managed",
-    "Both Unmanaged"
-  ],
-  answer: "AppSource control → Managed | JavaScript web resource → Unmanaged",
-  explanation: "Memory: Ship to customers = Managed. Build with developers = Unmanaged."
-},
-
 ];
 
 const QUESTIONS_PER_RUN = allQuestions.length;
 const MEMORY_INTERVAL = 2;
-
+<!-- pg 14-->
 const memoryCards = [
-"Environment Variables: Existing app session = old value; New app session & newly saved flows = updated value",
+"Monitor shared user session → Create Monitor Session → Invite User → User Reproduces Issue",
 
-"Store in Dataverse → Standard table | Reference external data → Virtual table",
+"Ribbon troubleshooting → Hidden button = &ribbondebug=true | Ignore form event handlers = &flags=DisableFormHandlers=true",
 
-"Need uniqueness across columns → Create Alternate Key",
+"Business Process Flow → Start of process = Step | Conditional path = Branching Condition | Merge paths = Stage",
+"Reusable canvas control → Create Canvas App Component → Place on Canvas App Screen → Publish Canvas App",
 
-"Hide a column from specific users → Field-Level Security Profile",
+"Environment copy for testing → Enable Admin Mode → Copy Customizations & Schema → Disable Components That Shouldn't Run",
 
-"Retrieve(Entity, Id, ColumnSet(true)) = inefficient (retrieve only needed columns)",
+"Production changed directly → Publish Customizations → Export Managed Solution → Import as Upgrade",
 
-"GetAttributeValue<int>() on missing attribute returns 0, not an exception",
+"Developer collaboration → Developers export Unmanaged solutions → Production receives Managed solutions",
 
-"Updating one column triggers plug-ins registered on that updated column, not unrelated columns",
-"Need Option Set integer value in non-.NET → Web API + PicklistAttributeMetadata",
-"Need extra data on many-to-many relationship (Visit Date) → Create intersect entity with two 1:N relationships",
-"Solution Checker errors only one solution → Canvas app in that solution has errors",
-"JavaScript == warning → web-use-strict-mode (use ===)",
-"Need Rollup Field recalculated immediately → Plug-in + CalculateRollupFieldRequest",
-"Anonymous app authentication to Dataverse → Client Secret",
-"Managed solution missing JavaScript → Add Web Resources to the Solution before exporting",
-"Column mapping supports compatible data types (Choices → Choices); applies to Quick Create and Main forms",
-"Package Deployment: Custom code → PackageTemplate.cs | Sample data → ImportConfig.xml | Copy to Output Directory → Copy Always",
-"Relationship behavior: Delete children → Parental | Assign only owned children → Cascade User Owned | Keep child when parent deleted → Referential",
-  "Skill Bot sequence → Manifest → Register in Power Virtual Agents → Register in Azure AD",
-  "Cloud plug-ins → Sandbox",
-  "External app writes Dataverse → Web API",
-  "Portal page layout → Portal Management (Play) or Portal Edit",
-  "External primary key (integer) → Virtual Table",
-  "Need external data to be read & updated → Virtual Table",
-  "Need external data available to all Dataverse clients → Custom Connector",
-  "Phone number formatting → Business Rule | Percentage calculation → Formula Column",
-  "SortByColumns → sort | AddColumns → add calculated columns | Filter → filter rows | Concatenate → join text | 'Last Name' → sort column",
-  "Edit Accounts → Security Role | Account table Update → User Update | Notes table Append To → User Append To | Team privileges → Microsoft Entra ID Security Group",
-  "Vehicle licensing data → Entity | Red light camera photos → Azure Storage Blob | Traffic violations → Entity",
-  "Package deployment: Create Dynamics 365 Package Project → Add files to PkgFolder → Define ImportConfig.xml → Build package",
-  "Hierarchy visualization → One-to-many | One record references one record → One-to-many | Many records reference many records → Many-to-many",
-  "Class table ownership → User or Team | Class history → Student = Many-to-one | Relationship behavior → Parental",
-  "Managers view BU records → Role-based security | Restrict field visibility → Field-level security | Share specific records → Record-level security",
-  "Power Fx condition functions → UpdateIf changes matching rows; RemoveIf deletes matching rows",
-"Bad connection credentials → error message; duplicate/similar account → no create",
-"Lookup default missing in target → move reference data with Configuration Migration Tool",
-"Managed solution same property → later layer wins; form additions usually merge",
-"Deleting managed column with dependencies → remove references first, then delete column"
+"Automated Power Platform deployments → Azure DevOps",
+"Unique IDs → Parent = Autonumber Column | Child = Business Rule (append sequence)",
+"Open model-driven form URL → pagetype=entityrecord | etn=logical entity name | extraqs=field values",
+
+"Monitor mobile model-driven app → Open in desktop browser → Add '&monitor=true' → Open in Power Apps Mobile → Reproduce while monitoring",
+
+"Site Map visibility → Can create records = Privileges | Browser vs Mobile = Client",
+
+"Managed form merge → Existing section = field appended to END | New section = field stays in NEW section | New form = field stays where placed",
+"App security → Test users: Environment Security Group + App Security Role | Production: only assign App Security Role | Department access: add users to Security Group",
+
+"RetrieveAttributeRequest for MultiSelect Choice → RetrieveAsIfPublished = false | Cast to AttributeMetadata",
+
+"SiteMap visibility → Can Create = Privileges | Web Browser vs Mobile = Client | Hide On-Prem = SKUs",
+
+"Solution Checker won't finish → Canvas app errors | JavaScript '==' warning → web-use-strict-mode",
+
+"Advanced Find searchable = Entity | Edit related data quickly = Quick View Form",
+
+"Power Fx buttons → Current date/time = Now() | Multiple conditions = Switch() or If() | Case-insensitive contains = IsMatch(..., Contains & IgnoreCase)",
+"ExecuteTransactionRequest → Requests execute in order | Error stops transaction | Response object not required for create",
+
+"Ribbon Workbench → Existing record = Display Rule | Write privilege = Display Rule | Bulk Edit restriction = Enable Rule",
+
+"JavaScript dependency → Customize System → JavaScript Properties → Event Dependencies",
+
+"Old CDS connector warning → Connections → Remove/Re-add connector | Troubleshoot Gallery using Monitor",
+
+"Ribbon buttons appear → Homepage Grid | Form | Associated View",
+
+"Refresh ribbon after business rules → formContext.ui.refreshRibbon(true) or refreshRibbon()",
+
+"Canvas app errors → Power Apps Checker | Slow app → Power Apps Analytics Service Performance",
+
+"Power Apps Checker application user → Export Customizations + Solution Checker security roles",
+
+"API requires MFA / modern authentication → OAuth",
+
+"Field-level editing for one team → Field Security Profile",
+
+"ExecuteTransactionRequest → ContinueOnError doesn't prevent rollback inside transaction",
+"Application User auth → Register App → Create Application User → Assign Security Role → Use Client ID + Secret",
+
+"Business Process Flow custom control → Add control → Export BPF + Form → Copy FormXML → Paste into BPF → Import & Publish",
 ];
 
 const MEMORY_CARDS_PER_RUN = memoryCards.length;
