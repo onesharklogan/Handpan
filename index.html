@@ -113,6 +113,417 @@
 <script>
 const allQuestions = [
 {
+  question: "A Power Apps maker is creating a chatbot for a website. The chatbot must recognize geographic attributes to enable additional functionality. What should you recommend?",
+  options: [
+    "Fallback topic",
+    "Power Automate flow",
+    "Bot Service compliance",
+    "Slot filling"
+  ],
+  answer: "Slot filling",
+  explanation: "Slot filling allows the bot to capture and process specific pieces of information, such as geographic attributes, from user input during a conversation. Slot filling ensures that required data is collected systematically before proceeding to the next step in the dialogue."
+},
+  {
+    question: "Visualize records as a hierarchy in a model-driven app. What relationship should you use?",
+    options: ["Connection", "One-to-many relationship", "Many-to-many relationship", "Self-referential relationship"],
+    answer: "Self-referential relationship"
+  },
+  {
+    question: "Records in one table must reference only a single record in another table. What relationship should you use?",
+    options: ["Connection", "One-to-many relationship", "Many-to-many relationship", "Self-referential relationship"],
+    answer: "One-to-many relationship"
+  },
+  {
+    question: "Any record in one table can be referenced by any record in another table. What relationship should you use?",
+    options: ["Connection", "One-to-many relationship", "Many-to-many relationship", "Self-referential relationship"],
+    answer: "Many-to-many relationship"
+  },
+  {
+    question: "School scenario: class history must be available to administrators at the new school. What table ownership should class records use?",
+    options: ["Organization", "User", "User or Team", "Team"],
+    answer: "Team",
+	explanation:" - School = Team. If the records are team-owned, when responsibility changes (for example, a student transfers schools), you can assign the records to the new school's team. Everyone on that team with the appropriate security role immediately has access."
+  },
+  {
+    question: "School scenario: class history table connects to the student table. What relationship type?",
+    options: ["One-to-many", "Many-to-one", "Many-to-many", "Self-referential"],
+    answer: "Many-to-one"
+  },
+  {
+    question: "School scenario: class history should follow the student relationship behavior. What behavior?",
+    options: ["Parental", "Referential", "Custom"],
+    answer: "Parental",
+	  explanation: " - Class history is child of Sutdent table. A Parental relationship means the child records inherit the parent's behavior."
+
+  },
+  {
+    question: "Offline canvas app: does the formula save data to Dataverse when reconnecting after losing network connection?",
+    options: ["Yes", "No"],
+    answer: "Yes"
+  },
+  {
+    question: "Offline canvas app: does the Patch-created collection contain all contacts not saved to Dataverse?",
+    options: ["Yes", "No"],
+    answer: "No"
+  },
+  {
+    question: "Offline canvas app: does Defaults(Contacts) with Patch update existing contacts?",
+    options: ["Yes", "No"],
+    answer: "No"
+  },
+  {
+    question: "Offline canvas app: does the expression handle loss of connection to Dataverse?",
+    options: ["Yes", "No"],
+    answer: "Yes"
+  },
+  {
+    question: "Power Apps portal page needs to display Dataverse data. What should you use?",
+    options: ["Liquid", "CSS", "iFrame", "Bootstrap"],
+    answer: "Liquid"
+  },
+  {
+    question: "Sales managers need to view records of salespeople in their business unit. Which security option?",
+    options: ["Role-based security", "Field-level security", "Record-level security"],
+    answer: "Role-based security",
+	explanation: "Record-level security is about sharing individual records or changing the owner of specific records. Field-level security protects individual columns, not records. Role-based security = defines access to records based on roles and scope (User, Business Unit, Organization). Record-level security = exceptions, such as sharing or assigning individual records."
+  },
+  {
+    question: "Only sales managers can view sales probability data in opportunity records. Which security option?",
+    options: ["Role-based security", "Field-level security", "Record-level security"],
+    answer: "Field-level security"
+  },
+  {
+    question: "Sales reps and new hires in the same territory share access to sales records. Which security option?",
+    options: ["Role-based security", "Field-level security", "Record-level security"],
+    answer: "Record-level security"
+  },
+  {
+    question: "UpsertRequest: Creating a new field to store the database record identifier resolves the key-not-defined error.",
+    options: ["Yes", "No"],
+    answer: "No"
+  },
+  {
+    question: "UpsertRequest: Creating an alternate key using accountnumber resolves the key-not-defined error.",
+    options: ["Yes", "No"],
+    answer: "Yes"
+  },
+  {
+    question: "UpsertRequest: If only an account named Contoso exists and other fields are empty, a new account record is created.",
+    options: ["Yes", "No"],
+    answer: "Yes"
+  },
+  {
+    question: "UpsertRequest: If an account exists that uses account number CO-555, a new account record is created.",
+    options: ["Yes", "No"],
+    answer: "No"
+  },
+  {
+    question: "Cascading behavior: primary record deleted and associated referential records must also be deleted. Which feature?",
+    options: ["Cascade User Owned", "Referential, Restrict Delete", "Referential", "Parental"],
+    answer: "Referential"
+  },
+  {
+    question: "Cascading behavior: when a record is assigned to a user, all referencing active records must also be assigned to that user. Which feature?",
+    options: ["Cascade User Owned", "Referential, Restrict Delete", "Referential", "Parental"],
+    answer: "Cascade User Owned"
+  },
+  {
+    question: "Cascading behavior: when a primary record is deleted, associated records must NOT be deleted. Which feature?",
+    options: ["Cascade User Owned", "Referential, Restrict Delete", "Referential", "Parental"],
+    answer: "Referential, Restrict Delete"
+  },
+  {
+    question: "Managers need one screen with Power BI data and the ability to update maintenance history. What should you do?",
+    options: [
+      "Add the maintenance history app to the Field Service Mobile app",
+      "Add the manager Power BI dashboard to the Field Service mobile app",
+      "Create a new maintenance canvas app from within the Power BI dashboard",
+      "Add the maintenance history app to the Power BI dashboard"
+    ],
+    answer: "Add the maintenance history app to the Power BI dashboard"
+  },
+  {
+    question: "Staffing company: create the job listings portal. Which feature?",
+    options: [
+      "Custom self-service portal for employers and a custom page for job candidates",
+      "Custom self-service portal for both employers and job candidates",
+      "Portal for job candidates and a custom self-service portal for employers",
+      "Portal from blank for job candidates and employers"
+    ],
+    answer: "Custom self-service portal for both employers and job candidates"
+  },
+  {
+    question: "Staffing company: create an app that lists available positions. Which feature?",
+    options: [
+      "Canvas app with push notifications",
+      "Model-driven app with push notifications",
+      "Portal app with push notifications"
+    ],
+    answer: "Model-driven app with push notifications"
+  },
+  {
+    question: "Staffing company: employers seeking temporary employees need an app. Which feature?",
+    options: [
+      "Entity form defined on the job custom entity",
+      "Webform with target set to the job custom entity",
+      "Web page defined on the job custom entity",
+      "Web step with target set to the job custom entity"
+    ],
+    answer: "Webform with target set to the job custom entity"
+  },
+  {
+    question: "Staffing company: create invitation parameters for job candidates. Which option?",
+    options: [
+      "Configure Assigned to Account only",
+      "Configure Execute Workflow on Redeeming Contact only",
+      "Configure both Assigned to Account and Execute Workflow on Redeeming Contact",
+      "Leave both empty"
+    ],
+    answer: "Configure Execute Workflow on Redeeming Contact only"
+  },
+  {
+    question: "Staffing company: create invitation parameters for approved job candidates. Which option?",
+    options: [
+      "Configure Assigned to Account only",
+      "Configure Execute Workflow on Redeeming Contact only",
+      "Configure both Assigned to Account and Execute Workflow on Redeeming Contact",
+      "Leave both empty"
+    ],
+    answer: "Configure Assigned to Account only"
+  },
+  {
+    question: "Bakery app: determine which store is closest to the order destination. What should you use?",
+    options: ["Power Automate flow", "Plug-in", "Logic app"],
+    answer: "Power Automate flow"
+  },
+  {
+    question: "Bakery app: estimate pickup prep time and notify the customer while minimizing custom code. What should you use?",
+    options: ["New screen in an existing order canvas app", "New canvas app", "New logic app"],
+    answer: "New screen in an existing order canvas app"
+  },
+  {
+    question: "Bakery app: send the newsletter by email to customers. What should you use?",
+    options: [
+      "Power Automate flow triggered from an email button",
+      "Power Automate flow triggered manually",
+      "Power Automate UI flow triggered from an email button"
+    ],
+    answer: "Power Automate flow triggered from an email button"
+  },
+  {
+    question: "Custom connector: which files can API developers provide to create the connector? Select two.",
+    options: ["YAML", "WSDL", "OpenAPI definition", "Postman collection"],
+    answer: ["OpenAPI definition", "Postman collection"]
+  },
+  {
+    question: "Dynamics 365 Finance without third-party add-ons: warehouse employees scan barcodes with mobile devices. Which solution?",
+    options: ["Out-of-the-box", "Logic apps", "Power Automate", "Common Data Service"],
+    answer: "Out-of-the-box"
+  },
+  {
+    question: "Dynamics 365 Field Service: technician location is communicated by text message. Which solution?",
+    options: ["Common Data Service", "Workflow", "Power Automate"],
+    answer: "Power Automate"
+  },
+  {
+    question: "Model-driven app uses Exchange Online to send email. What configuration?",
+    options: ["Server-side synchronization", "Server-based integration", "Dual-write", "System settings"],
+    answer: "Server-side synchronization"
+  },
+  {
+    question: "Model-driven app uses SharePoint Online for document storage. What configuration?",
+    options: ["Server-side synchronization", "Server-based integration", "Dual-write", "System settings"],
+    answer: "Server-based integration"
+  },
+  {
+    question: "Order processing app: complex business logic, external systems, up to six minutes, must complete in one operation. What should you recommend?",
+    options: [
+      "Asynchronous workflow with custom workflow activity",
+      "Real-time workflow with custom action",
+      "Webhook that connects to an Azure Function",
+      "Asynchronous plug-in"
+    ],
+    answer: "Real-time workflow with custom action",
+    explanation: "Real-time Workflows roll back all changes if it fails. As the Workflow is going through the process itself, if it fails, it will roll back all of the prior steps taken.",
+    incorrectNotes: {
+      "Asynchronous workflow with custom workflow activity": "Asynchronous workflow: Not real-time; may leave incomplete records.",
+      "Webhook that connects to an Azure Function": "Webhook with Azure Function: Stateless and asynchronous; not atomic.",
+      "Asynchronous plug-in": "Asynchronous plug-in: Background processing; not immediate."
+    }
+  },
+  {
+    question: "Non-profit portal: create portal using a portal template. Which module?",
+    options: ["Starter portal", "Community portal", "Customer self-service portal"],
+    answer: "Customer self-service portal"
+  },
+  {
+    question: "Non-profit portal: manage volunteer registration with multiple related entities. Which module?",
+    options: ["Entity form metadata", "Webform", "Webform step"],
+    answer: "Webform"
+  },
+  {
+    question: "Power Apps portal Liquid code: which entities can include Liquid code? Select three.",
+    options: ["Content snippet", "Web page", "Web template", "Page template", "Portal settings"],
+    answer: ["Web page", "Web template", "Page template"]
+  },
+  {
+    question: "Power Virtual Agents skill bot sequence: what is step 1?",
+    options: [
+      "Create a manifest for the skill bot",
+      "Register the skill bot in Power Virtual Agents",
+      "Register the homework bot in Power Virtual Agents",
+      "Register the skill bot in Azure Active Directory"
+    ],
+    answer: "Create a manifest for the skill bot"
+  },
+  {
+    question: "Power Virtual Agents skill bot sequence: what is step 2?",
+    options: [
+      "Create a manifest for the homework bot",
+      "Register the skill bot in Power Virtual Agents",
+      "Register the homework bot in Azure Active Directory",
+      "Register the homework bot in Power Virtual Agents"
+    ],
+    answer: "Register the skill bot in Power Virtual Agents"
+  },
+  {
+    question: "Power Virtual Agents skill bot sequence: what is step 3?",
+    options: [
+      "Register the skill bot in Azure Active Directory",
+      "Register the homework bot in Azure Active Directory",
+      "Register the homework bot in Power Virtual Agents",
+      "Create a manifest for the homework bot"
+    ],
+    answer: "Register the homework bot in Power Virtual Agents"
+  },
+  {
+  question: "A company is migrating from on-premises Dynamics 365 to Power Platform. Which isolation mode should be used when registering plug-ins?",
+  options: ["None", "Global Assembly Cache (GAC)", "Sandbox", "Disk"],
+  answer: "Sandbox"
+},
+{
+  question: "An Azure application monitors resumes, parses them, and saves contact and skills information into Dataverse. Which mechanism should be used?",
+  options: [
+    "Power Automate",
+    "Common Data Service plug-in",
+    "Web API",
+    "Custom workflow activity"
+  ],
+  answer: "Power Automate"
+},
+{
+  question: "External system integration: support records that use an integer as a primary key. Which object should be used?",
+  options: ["Virtual entity (virtual table)", "Custom connector"],
+  answer: "Virtual entity (virtual table)",
+  explanation:"A Virtual Table allows Dataverse to display data that stays in an external system. The data is not copied into Dataverse.One key feature is that virtual tables support external primary keys, including integer "
+},
+{
+  question: "External system integration: ensure data can be read and updated. Which object should be used?",
+  options: ["Virtual entity (virtual table)", "Custom connector"],
+  answer: "Virtual entity (virtual table)"
+},
+{
+  question: "External system integration: ensure data is available to all Microsoft Dataverse clients. Which object should be used?",
+  options: ["Virtual entity (virtual table)", "Custom connector"],
+  answer: "Custom connector"
+},
+{
+  question: "Web API call: GET /api/data/v9.1/RelationshipDefinitions?$select=SchemaName. What does this retrieve?",
+  options: [
+    "Retrieve the list of relationships between tables",
+    "Retrieve a list of tables that are related to each other",
+    "Retrieve a list of one-to-many relationships",
+    "Retrieve a list of tables that have more than one relationship",
+    "Retrieve a list of many-to-many relationships"
+  ],
+  answer: "Retrieve the list of relationships between tables"
+},
+{
+  question: "You create an Azure Function to retrieve Azure AD sign-in information in JSON for a canvas app. Which two actions should you perform?",
+  options: [
+    "Create a Power Automate flow to import data",
+    "Create a custom connector using the Azure Function API",
+    "Use app designer in the Power Platform admin center",
+    "Use Azure Service Bus",
+    "Create an API definition for the Azure Function"
+  ],
+  answer: [
+    "Create a custom connector using the Azure Function API",
+    "Create an API definition for the Azure Function"
+  ]
+},
+{
+  question: "A company uses Power Pages, Power Virtual Agents, and Power Automate. Match each requirement to the correct application.",
+  options: [
+    "Use a bot on the website → Power Pages",
+    "Use a bot on the website → Power Virtual Agents",
+    "Create Bot Framework skills → Power App (now Azure Bot Service / Bot Framework SDK)",
+    "Create Bot Framework skills → Power Virtual Agents",
+    "Create support request from the bot → Power Automate",
+    "Create support request from the bot → Power Virtual Agents"
+  ],
+  answer: [
+    "Use a bot on the website → Power Pages",
+    "Create Bot Framework skills → Power App",
+    "Create support request from the bot → Power Virtual Agents"
+  ]
+},
+{
+  question: "A custom connector connects to a web service hosted in multiple regions. The URL uses a common domain and region-specific subdomains. Which policy template should you use?",
+  options: [
+    "Set HTTP header",
+    "Route request",
+    "Set host URL",
+    "Set query string parameter"
+  ],
+  answer: "Set host URL"
+},
+
+{
+  question: "How do you start the Monitor tool?",
+  options: [
+    "Monitor is always running when you are in Power Apps Studio.",
+    "By selecting the Advanced tools tab in Power Apps Studio.",
+    "Launch it from the make.powerapps.com link.",
+    "Install it from Microsoft AppSource."
+  ],
+  answer: "By selecting the Advanced tools tab in Power Apps Studio.",
+  explanation: "Monitor is launched from the Advanced tools tab in Power Apps Studio. It is not automatically running, does not require installation from AppSource, and is not launched directly from the make.powerapps.com homepage."
+},
+{
+  question: "You want to run Monitor on a published app. What do you need to do?",
+  options: [
+    "Launch Monitor and invite the user.",
+    "Enable the Debug published app setting and then launch Monitor and invite the user.",
+    "Enable the Debug published app setting, save and publish the app, and then launch Monitor and invite the user."
+  ],
+  answer: "Enable the Debug published app setting, save and publish the app, and then launch Monitor and invite the user.",
+  explanation: "For published apps, you must first enable the Debug published app setting, save and publish the app so the setting takes effect, then launch Monitor and invite the user to the monitoring session."
+},
+
+{
+  question: "A financial institution must make the Account Balance field visible only to specific users. Which three actions should you perform?",
+  options: [
+    "Set the field to Read-Only and publish the table",
+    "Set the field permission Allow Read to Yes and add users to the Members section",
+    "Create a security role and add the users to the role",
+    "Enable field security and publish the table",
+    "Create a field security profile"
+  ],
+  answer: [
+    "Set the field permission Allow Read to Yes and add users to the Members section",
+    "Enable field security and publish the table",
+    "Create a field security profile"
+  ],
+  explanation: "Field-level security requires three steps: enable field security on the column, create a Field Security Profile, and grant permissions (such as Allow Read) to users or teams through that profile.",
+  incorrectNotes: {
+    "Set the field to Read-Only and publish the table": "Read-only prevents editing but does not restrict who can view the field.",
+    "Create a security role and add the users to the role": "Security roles control table access, not field-level visibility."
+  }
+},
+
+  
+{
   question: "A company has multiple developers working in isolated development environments. Changes must later be merged into a shared development environment. What should developers export?",
   options: [
     "Copy each development environment daily",
